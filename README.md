@@ -12,7 +12,8 @@ We document substantial cross-sectional heterogeneity in cryptocurrency event se
 ## Repository Contents
 
 ### Main Files
-- **Farzulla_2025_Cryptocurrency_Heterogeneity.md** - Complete manuscript
+- **Farzulla_2025_Cryptocurrency_Heterogeneity.md** - Complete manuscript (Markdown)
+- **Farzulla_2025_Cryptocurrency_Heterogeneity.pdf** - PDF version (143KB)
 - **Farzulla_2025_Cryptocurrency_Heterogeneity.html** - HTML version
 
 ### Figures (300 DPI)
