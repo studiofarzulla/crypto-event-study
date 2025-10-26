@@ -3,7 +3,7 @@
 **Author:** Murad Farzulla
 **Date:** October 2025
 **Status:** Working Paper
-**DOI:** [10.5281/zenodo.XXXXX](https://doi.org/10.5281/zenodo.XXXXX) *(to be assigned)*
+**DOI:** [10.5281/zenodo.17449736](https://doi.org/10.5281/zenodo.17449736) *(to be assigned)*
 
 ## Abstract
 
