@@ -829,7 +829,7 @@ The GDELT sentiment data was extracted using a multi-stage SQL query in Google B
 2. **Sentiment calculation**: Volume-weighted sentiment scores using article tone and mention counts
 3. **Normalization**: 52-week rolling z-score standardization with theme decomposition (regulatory vs infrastructure)
 
-The full SQL implementation is available in the project repository at: [repository URL to be added]
+The full SQL implementation is available in the project repository at: https://github.com/studiofarzulla/crypto-event-study
 
 # Appendix C: Preliminary Analysis Results
 
@@ -860,4 +860,4 @@ Given limitations in existing econometric software for implementing exogenous va
 
 The manual implementation provides full control over the optimisation process, transparent likelihood function specification, and proper computation of robust standard errors via numerical Hessian. The complete Python implementation spans approximately 400 lines and includes parameter constraint handling, Student-t likelihood computation, and bootstrap inference capabilities.
 
-**Code and Data Availability**: The complete replication package including Python code, data processing scripts, and documentation is available at: [repository URL to be added]. This ensures full reproducibility and demonstrates the methodological rigour required for proper TARCH-X estimation in cryptocurrency markets.
+**Code and Data Availability**: The complete replication package including Python code, data processing scripts, and documentation is available at: https://github.com/studiofarzulla/crypto-event-study. This ensures full reproducibility and demonstrates the methodological rigour required for proper TARCH-X estimation in cryptocurrency markets.
