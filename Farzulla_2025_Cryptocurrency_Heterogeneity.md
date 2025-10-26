@@ -4,6 +4,10 @@
 
 *October 2025*
 
+**DOI:** [10.5281/zenodo.17449736](https://doi.org/10.5281/zenodo.17449736)
+
+**License:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) - This work is licensed under a Creative Commons Attribution 4.0 International License.
+
 ---
 
 **Note:** This is a revised version of a Master's thesis originally submitted in October 2024. Post-submission revisions include critical numerical corrections, enhanced robustness validation, and professional formatting improvements.
