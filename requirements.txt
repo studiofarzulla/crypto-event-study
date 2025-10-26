@@ -1,0 +1,33 @@
+# Core scientific computing
+numpy==2.3.4
+pandas==2.3.1
+scipy==1.16.2
+
+# Statistical modeling
+statsmodels==0.14.6.dev0+g1107ea567.d20250914
+
+# GARCH models (optional - manual implementation provided)
+# arch==6.4.0  # Uncomment if using arch package models instead of manual TARCH-X
+
+# Machine learning
+scikit-learn==1.7.2
+
+# Visualization
+matplotlib==3.10.6
+seaborn==0.13.2
+
+# Data handling
+python-dateutil==2.9.0
+pytz==2025.2
+
+# HTTP requests (for CoinGecko API)
+requests==2.32.5
+urllib3==2.5.0
+
+# Optional utilities
+colorama==0.4.6
+termcolor==3.1.0
+joblib==1.4.2
+
+# Development/testing dependencies
+# See requirements-test.txt for testing requirements

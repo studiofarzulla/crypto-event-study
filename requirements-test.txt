@@ -1,0 +1,39 @@
+# Test Requirements for Cryptocurrency Event Study
+# Install with: pip install -r requirements-test.txt
+
+# Core testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0          # Coverage reporting
+pytest-xdist>=3.0.0        # Parallel execution
+pytest-timeout>=2.1.0      # Test timeouts
+
+# Test utilities
+pytest-mock>=3.10.0        # Mocking utilities
+pytest-benchmark>=4.0.0    # Performance benchmarking
+pytest-randomly>=3.12.0    # Random test order
+pytest-memprof>=0.2.0      # Memory profiling
+
+# Additional dependencies for tests
+psutil>=5.9.0             # Process and system monitoring
+tqdm>=4.64.0              # Progress bars for bootstrap
+hypothesis>=6.68.0        # Property-based testing (optional)
+
+# Data manipulation (should already be in main requirements)
+pandas>=1.5.0
+numpy>=1.23.0
+scipy>=1.9.0
+
+# GARCH modeling (should already be in main requirements)
+arch>=5.3.0
+
+# Statistical testing
+statsmodels>=0.13.0
+
+# Code quality tools (optional)
+flake8>=5.0.0            # Linting
+black>=22.0.0            # Code formatting
+mypy>=0.990              # Type checking
+isort>=5.11.0            # Import sorting
+
+# Documentation
+pytest-html>=3.1.0       # HTML test reports
