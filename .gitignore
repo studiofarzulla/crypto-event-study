@@ -60,3 +60,12 @@ dissertation-integrated.md
 # OS files
 .DS_Store
 Thumbs.db
+
+# Ignore legacy files from refactor
+[legacy]files-docs/
+
+# Ignore documentation (managed separately)
+CLAUDE.md
+INDEX.md
+docs/
+publication_figures/

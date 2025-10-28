@@ -1,0 +1,393 @@
+% ============================================================================
+% LaTeX Manuscript Template for Event Study
+% ============================================================================
+%
+% This template demonstrates how to integrate the generated figures and
+% tables into your research paper.
+%
+% Required packages are listed below.
+% Adjust according to your specific journal requirements.
+%
+% ============================================================================
+
+\documentclass[12pt]{article}
+
+% ============================================================================
+% PACKAGES
+% ============================================================================
+
+% Essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+% Graphics and figures
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{publication_figures/}}  % Path to your figures
+
+% Tables
+\usepackage{booktabs}       % Professional table formatting
+\usepackage{threeparttable} % Table notes
+\usepackage{multirow}       % Multi-row cells
+\usepackage{array}          % Enhanced column formatting
+
+% Math and symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% References and citations
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+% Hyperlinks (optional, comment out for print)
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% Other useful packages
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+
+% ============================================================================
+% CUSTOM COMMANDS
+% ============================================================================
+
+% Abbreviations
+\newcommand{\car}{\text{CAR}}  % Cumulative Abnormal Return
+\newcommand{\ar}{\text{AR}}    % Abnormal Return
+
+% ============================================================================
+% TITLE AND AUTHORS
+% ============================================================================
+
+\title{Infrastructure vs. Regulatory Events in Cryptocurrency Markets: \\
+       An Event Study Analysis}
+
+\author{
+    Your Name\thanks{Affiliation, email: your.email@university.edu} \\
+    \and
+    Co-Author Name\thanks{Affiliation, email: coauthor@university.edu}
+}
+
+\date{\today}
+
+% ============================================================================
+% DOCUMENT
+% ============================================================================
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This paper examines the differential impact of infrastructure and regulatory events on cryptocurrency markets using event study methodology. We analyze 18 major events from 2022-2024 affecting a cross-section of cryptocurrencies. Our findings indicate that regulatory events generate larger volatility spikes and more persistent impacts compared to infrastructure events. The results have implications for market participants, regulators, and researchers studying cryptocurrency market dynamics.
+
+\textbf{Keywords:} Cryptocurrency, Event Study, Volatility, Regulation, Infrastructure
+
+\textbf{JEL Classification:} G14, G15, G18
+\end{abstract}
+
+\newpage
+
+% ============================================================================
+% INTRODUCTION
+% ============================================================================
+
+\section{Introduction}
+
+Cryptocurrency markets have experienced rapid growth and increased regulatory scrutiny since the emergence of Bitcoin in 2009. Understanding how different types of events affect these markets is crucial for investors, policymakers, and researchers. This paper distinguishes between two major event categories affecting cryptocurrency markets: infrastructure events (technological upgrades, platform incidents, network disruptions) and regulatory events (policy announcements, legal decisions, enforcement actions).
+
+We employ event study methodology to analyze 18 major events occurring between 2022 and 2024. Our sample includes [Number] cryptocurrencies with a combined market capitalization of [Amount] as of [Date]. The analysis addresses three main research questions:
+
+\begin{enumerate}
+    \item Do infrastructure and regulatory events differ in their immediate impact on cryptocurrency returns?
+    \item How do volatility dynamics differ between event types?
+    \item Which cryptocurrencies are most sensitive to each event category?
+\end{enumerate}
+
+\subsection{Motivation}
+
+[Your introduction continues here...]
+
+% ============================================================================
+% LITERATURE REVIEW
+% ============================================================================
+
+\section{Literature Review}
+
+\subsection{Event Studies in Financial Markets}
+
+Event study methodology has been widely used to assess the impact of corporate announcements, regulatory changes, and macroeconomic shocks on asset prices \citep{fama1969, brown1985}. The approach identifies abnormal returns by comparing actual returns to a counterfactual expected return derived from a market model.
+
+\subsection{Cryptocurrency Market Efficiency}
+
+[Your literature review continues...]
+
+% ============================================================================
+% DATA AND METHODOLOGY
+% ============================================================================
+
+\section{Data and Methodology}
+
+\subsection{Data Sources}
+
+We collect daily cryptocurrency price data from [Source] for the period [Start Date] to [End Date]. Our sample includes [List cryptocurrencies or refer to Table~\ref{tab:descriptive}]. Market capitalization data are obtained from [Source].
+
+Event dates and classifications are manually collected from news sources, regulatory announcements, and blockchain explorers. We classify events into two categories:
+
+\begin{itemize}
+    \item \textbf{Infrastructure Events:} Technological upgrades, platform incidents, network outages
+    \item \textbf{Regulatory Events:} Policy announcements, legal rulings, enforcement actions
+\end{itemize}
+
+Table~\ref{tab:event_study} provides a complete list of events analyzed.
+
+\subsection{Event Study Methodology}
+
+We employ the standard market model event study approach. For each cryptocurrency $i$ and day $t$, normal returns are estimated as:
+
+\begin{equation}
+    R_{it} = \alpha_i + \beta_i R_{mt} + \varepsilon_{it}
+\end{equation}
+
+where $R_{it}$ is the return on cryptocurrency $i$, $R_{mt}$ is the market return (value-weighted portfolio), and $\varepsilon_{it}$ is the error term.
+
+The estimation window is $[-150, -11]$ relative to each event. Abnormal returns are calculated as:
+
+\begin{equation}
+    AR_{it} = R_{it} - \hat{\alpha}_i - \hat{\beta}_i R_{mt}
+\end{equation}
+
+Cumulative abnormal returns (CAR) over window $[t_1, t_2]$ are:
+
+\begin{equation}
+    CAR_i(t_1, t_2) = \sum_{t=t_1}^{t_2} AR_{it}
+\end{equation}
+
+Statistical significance is assessed using cross-sectional t-tests with robust standard errors.
+
+\subsection{Volatility Analysis}
+
+We estimate realized volatility using high-frequency returns and model volatility dynamics using GARCH(1,1), EGARCH, and GJR-GARCH specifications. Model selection is based on Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC).
+
+% ============================================================================
+% RESULTS
+% ============================================================================
+
+\section{Results}
+
+\subsection{Event Study Results}
+
+Figure~\ref{fig:timeline} presents a timeline of all events analyzed, showing the magnitude and direction of market impacts. Table~\ref{tab:event_study} provides detailed cumulative abnormal returns with statistical significance tests.
+
+% Include Figure 1
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figure1_event_timeline.pdf}
+    \caption{Event Timeline and Impact Magnitudes}
+    \label{fig:timeline}
+    \begin{minipage}{\textwidth}
+        \small
+        \textit{Notes:} This figure shows the chronological sequence of 18 major events affecting cryptocurrency markets from 2022-2024. Infrastructure events (circles) include technological upgrades and platform incidents. Regulatory events (squares) include policy announcements and legal decisions. The y-axis shows cumulative abnormal returns (CAR) over the event window [0, +5]. Statistical significance: * p < 0.10, ** p < 0.05, *** p < 0.01.
+    \end{minipage}
+\end{figure}
+
+% Include Table 1
+\input{publication_tables/table1_event_study_results.tex}
+
+Our analysis reveals several key findings:
+
+\begin{enumerate}
+    \item \textbf{Regulatory events have larger impacts:} The average CAR for regulatory events is [X]\% compared to [Y]\% for infrastructure events (p < 0.01).
+
+    \item \textbf{Significant heterogeneity:} Some events, such as [Event name], generated [Z]\% CAR, while others showed minimal impact.
+
+    \item \textbf{Asymmetric responses:} Negative regulatory news generates stronger reactions than positive news.
+\end{enumerate}
+
+\subsection{Volatility Dynamics}
+
+Figure~\ref{fig:volatility} compares volatility dynamics before, during, and after events for infrastructure versus regulatory categories. Table~\ref{tab:volatility} presents formal statistical tests.
+
+% Include Figure 2
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figure2_volatility_comparison.pdf}
+    \caption{Volatility Dynamics Around Infrastructure and Regulatory Events}
+    \label{fig:volatility}
+    \begin{minipage}{\textwidth}
+        \small
+        \textit{Notes:} This figure compares realized volatility (percentage per day) across three periods: pre-event window [-10, -1], event window [0, +5], and post-event window [+6, +20]. Panel A shows infrastructure events; Panel B shows regulatory events. Error bars represent 95\% confidence intervals estimated using robust standard errors.
+    \end{minipage}
+\end{figure}
+
+% Include Table 3
+\input{publication_tables/table3_volatility_models.tex}
+
+Key volatility findings:
+
+\begin{enumerate}
+    \item Volatility increases by [X]\% during regulatory events versus [Y]\% during infrastructure events.
+
+    \item Persistence differs: Regulatory event volatility takes [Z] days to return to baseline, compared to [W] days for infrastructure events.
+
+    \item EGARCH models provide the best fit (lowest AIC/BIC), suggesting asymmetric volatility responses.
+\end{enumerate}
+
+\subsection{Cross-Sectional Analysis}
+
+Figure~\ref{fig:heatmap} presents the complete cross-sectional pattern of event impacts across cryptocurrencies. Table~\ref{tab:descriptive} provides descriptive statistics for the sample.
+
+% Include Figure 3
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figure3_impact_heatmap.pdf}
+    \caption{Cross-Sectional Event Impact Matrix}
+    \label{fig:heatmap}
+    \begin{minipage}{\textwidth}
+        \small
+        \textit{Notes:} This heatmap displays cumulative abnormal returns (CAR) for each cryptocurrency (columns) during each event (rows). Darker shades indicate larger absolute impacts. Values are expressed as percentages. The matrix reveals heterogeneous responses across cryptocurrencies and event types.
+    \end{minipage}
+\end{figure}
+
+% Include Table 2
+\input{publication_tables/table2_descriptive_statistics.tex}
+
+Cross-sectional patterns:
+
+\begin{enumerate}
+    \item Bitcoin shows the smallest average response ([X]\%), consistent with its position as the largest and most liquid cryptocurrency.
+
+    \item Smaller-cap altcoins exhibit higher sensitivity, with average responses of [Y]\%.
+
+    \item DeFi tokens are particularly sensitive to regulatory events but show resilience to infrastructure events.
+\end{enumerate}
+
+\subsection{Model Performance}
+
+Figure~\ref{fig:models} compares the out-of-sample forecast accuracy of competing models. Table~\ref{tab:regression} presents cross-sectional regression results.
+
+% Include Figure 4
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figure4_model_comparison.pdf}
+    \caption{Model Performance Comparison}
+    \label{fig:models}
+    \begin{minipage}{\textwidth}
+        \small
+        \textit{Notes:} This figure evaluates competing volatility models using out-of-sample forecasts. Panel (a) shows root mean squared error (RMSE), panel (b) shows mean absolute error (MAE), panel (c) shows Akaike Information Criterion (AIC), and panel (d) shows Bayesian Information Criterion (BIC). Lighter bars with cross-hatching indicate best performance within each metric.
+    \end{minipage}
+\end{figure}
+
+% Include Table 4 (if you have regression results)
+% \input{publication_tables/table4_regression_results.tex}
+
+Model comparison findings:
+
+\begin{enumerate}
+    \item GARCH(1,1) provides the best out-of-sample forecasts (lowest RMSE and MAE).
+
+    \item Information criteria (AIC and BIC) favor the more parsimonious specifications.
+
+    \item Forecast accuracy deteriorates during high-volatility periods following regulatory events.
+\end{enumerate}
+
+% ============================================================================
+% ROBUSTNESS CHECKS
+% ============================================================================
+
+\section{Robustness Checks}
+
+We conduct several robustness tests:
+
+\begin{enumerate}
+    \item \textbf{Alternative event windows:} Results are robust to using [0, +3], [0, +10], and [-1, +5] windows.
+
+    \item \textbf{Market model alternatives:} Fama-French three-factor model and constant-mean return model yield qualitatively similar results.
+
+    \item \textbf{Outlier treatment:} Winsorizing extreme returns at 1\% and 99\% levels does not affect main conclusions.
+
+    \item \textbf{Clustering:} Adjusting standard errors for clustering by event date strengthens significance levels.
+\end{enumerate}
+
+% ============================================================================
+% DISCUSSION
+% ============================================================================
+
+\section{Discussion}
+
+\subsection{Economic Interpretation}
+
+Our findings suggest that cryptocurrency markets react more strongly to regulatory uncertainty than to technological developments. This pattern is consistent with the hypothesis that regulatory risk represents a fundamental challenge to cryptocurrency adoption, while infrastructure issues are viewed as temporary and solvable.
+
+\subsection{Policy Implications}
+
+Regulators should be aware that policy announcements create significant market volatility, potentially harming retail investors. Clear, consistent regulatory frameworks may reduce uncertainty and stabilize markets.
+
+\subsection{Investment Implications}
+
+Portfolio managers should consider event risk when constructing cryptocurrency portfolios. Diversification across cryptocurrencies with different regulatory exposures may reduce event risk.
+
+% ============================================================================
+% CONCLUSION
+% ============================================================================
+
+\section{Conclusion}
+
+This paper provides a comprehensive analysis of how infrastructure and regulatory events affect cryptocurrency markets. Using event study methodology on 18 major events from 2022-2024, we document significant differences in market responses. Regulatory events generate larger, more persistent impacts on both returns and volatility compared to infrastructure events.
+
+These findings contribute to the growing literature on cryptocurrency market efficiency and have practical implications for investors, regulators, and market participants. Future research could extend this analysis to examine international regulatory spillovers and the role of social media in amplifying event impacts.
+
+% ============================================================================
+% REFERENCES
+% ============================================================================
+
+\newpage
+\section*{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{fama1969}
+Fama, E. F., Fisher, L., Jensen, M. C., \& Roll, R. (1969).
+The adjustment of stock prices to new information.
+\textit{International Economic Review}, 10(1), 1-21.
+
+\bibitem{brown1985}
+Brown, S. J., \& Warner, J. B. (1985).
+Using daily stock returns: The case of event studies.
+\textit{Journal of Financial Economics}, 14(1), 3-31.
+
+% Add your references here
+
+\end{thebibliography}
+
+% ============================================================================
+% APPENDIX (OPTIONAL)
+% ============================================================================
+
+\newpage
+\appendix
+
+\section{Event Definitions and Sources}
+
+[Detailed event descriptions and sources]
+
+\section{Additional Robustness Tests}
+
+[Additional tables and figures]
+
+\section{Data Description}
+
+[Detailed data description]
+
+% ============================================================================
+% END OF DOCUMENT
+% ============================================================================
+
+\end{document}

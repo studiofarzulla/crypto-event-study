@@ -1,0 +1,64 @@
+
+================================================================================
+FTX EVENT STUDY - ANOMALY DETECTION ANALYSIS
+================================================================================
+
+################################################################################
+# ANALYZING BTC
+################################################################################
+
+Loaded 4515 observations from 2013-04-28 to 2025-09-08
+
+[1/3] Running statistical anomaly detection...
+  Found 193 statistical anomalies
+[2/3] Running Isolation Forest detection...
+Traceback (most recent call last):
+  File "/home/kawaiikali/event-study/ftx_anomaly_detection.py", line 355, in <module>
+    main()
+    ~~~~^^
+  File "/home/kawaiikali/event-study/ftx_anomaly_detection.py", line 286, in main
+    iso_anomalies, iso_model = isolation_forest_detection(df, contamination=0.05)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kawaiikali/event-study/ftx_anomaly_detection.py", line 103, in isolation_forest_detection
+    X_scaled = scaler.fit_transform(X)
+  File "/usr/lib/python3.13/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+  File "/usr/lib/python3.13/site-packages/sklearn/base.py", line 894, in fit_transform
+    return self.fit(X, **fit_params).transform(X)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/site-packages/sklearn/preprocessing/_data.py", line 907, in fit
+    return self.partial_fit(X, y, sample_weight)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/site-packages/sklearn/base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/usr/lib/python3.13/site-packages/sklearn/preprocessing/_data.py", line 943, in partial_fit
+    X = validate_data(
+        self,
+    ...<4 lines>...
+        reset=first_call,
+    )
+  File "/usr/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2954, in validate_data
+    out = check_array(X, input_name="X", **check_params)
+  File "/usr/lib/python3.13/site-packages/sklearn/utils/validation.py", line 1105, in check_array
+    _assert_all_finite(
+    ~~~~~~~~~~~~~~~~~~^
+        array,
+        ^^^^^^
+    ...<2 lines>...
+        allow_nan=ensure_all_finite == "allow-nan",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.13/site-packages/sklearn/utils/validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        X,
+        ^^
+    ...<4 lines>...
+        input_name=input_name,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.13/site-packages/sklearn/utils/validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains infinity or a value too large for dtype('float64').
