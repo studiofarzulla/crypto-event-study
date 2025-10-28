@@ -737,7 +737,8 @@ def run_robustness_checks(cryptos: Optional[List[str]] = None,
     Returns:
         Dictionary with all robustness results
     """
-    checker = RobustnessChecks()
+    from code.core import config
+    checker = RobustnessChecks(data_path=config.DATA_DIR)
     results = checker.run_all_robustness_checks(cryptos)
 
     # Optionally add bootstrap

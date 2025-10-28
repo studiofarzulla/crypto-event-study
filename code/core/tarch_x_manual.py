@@ -295,7 +295,7 @@ class TARCHXEstimator:
         
         # Add bounds for exogenous variables (can be negative or positive)
         for _ in range(self.n_exog):
-            bounds.append((-1.0, 1.0))  # Event/sentiment coefficients bounded
+            bounds.append((None, None))  # Event/sentiment coefficients unbounded
         
         # Optimization
         try:

@@ -4,7 +4,7 @@ pandas==2.3.1
 scipy==1.16.2
 
 # Statistical modeling
-statsmodels==0.14.6.dev0+g1107ea567.d20250914
+statsmodels>=0.14.0
 
 # GARCH models (optional - manual implementation provided)
 # arch==6.4.0  # Uncomment if using arch package models instead of manual TARCH-X
@@ -31,3 +31,5 @@ joblib==1.4.2
 
 # Development/testing dependencies
 # See requirements-test.txt for testing requirements
+tqdm
+arch
