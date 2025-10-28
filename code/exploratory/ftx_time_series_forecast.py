@@ -27,13 +27,15 @@ except ImportError:
     print("Prophet not available, skipping Prophet forecasts")
     PROPHET_AVAILABLE = False
 
+from code.core import config
+
 # Set style
 sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (15, 8)
 
 # Paths
-DATA_DIR = "/home/kawaiikali/event-study/event_study/data"
-OUTPUT_DIR = "/home/kawaiikali/event-study/event_study/outputs"
+DATA_DIR = config.DATA_DIR
+OUTPUT_DIR = config.OUTPUTS_DIR
 
 # FTX bankruptcy event date (timezone-aware to match data)
 FTX_EVENT_DATE = pd.Timestamp("2022-11-11", tz='UTC')

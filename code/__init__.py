@@ -10,12 +10,12 @@ __version__ = "1.0.0"
 __author__ = "Murad Farzulla"
 __email__ = "murad@farzulla.org"
 
-from .data_preparation import DataPreparation
-from .garch_models import estimate_models_for_all_cryptos
-from .event_impact_analysis import run_complete_analysis
-from .publication_outputs import generate_publication_outputs
-from .robustness_checks import run_robustness_checks
-from .bootstrap_inference import run_bootstrap_analysis
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import estimate_models_for_all_cryptos
+from code.analysis.event_impact_analysis import run_complete_analysis
+from code.publication.publication_outputs import generate_publication_outputs
+from code.robustness.robustness_checks import run_robustness_checks
+from code.inference.bootstrap_inference import run_bootstrap_analysis
 
 __all__ = [
     'DataPreparation',

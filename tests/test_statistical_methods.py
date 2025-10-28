@@ -10,8 +10,8 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
-from event_impact_analysis import EventImpactAnalysis
-from garch_models import GARCHModels, ModelResults
+from code.analysis.event_impact_analysis import EventImpactAnalysis
+from code.core.garch_models import GARCHModels, ModelResults
 
 
 pytestmark = pytest.mark.statistical

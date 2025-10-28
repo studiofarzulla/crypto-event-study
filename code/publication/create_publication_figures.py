@@ -70,7 +70,8 @@ PATTERNS = {
 
 def ensure_output_dir():
     """Create output directory if it doesn't exist"""
-    output_dir = Path('/home/kawaiikali/event-study/publication_figures')
+    from code.core import config
+    output_dir = config.PUBLICATION_DIR / 'figures'
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
@@ -423,7 +424,8 @@ def load_or_generate_example_data():
     """
     Attempts to load actual data, or generates example data for demonstration
     """
-    data_path = Path('/home/kawaiikali/event-study/data')
+    from code.core import config
+    data_path = Path(config.DATA_DIR)
 
     # Try to load actual data files
     try:
@@ -534,12 +536,13 @@ def main():
     create_model_comparison(model_results)
     print("✓ Figure 4 complete")
 
+    from code.core import config
     print()
     print("=" * 80)
     print("ALL FIGURES GENERATED SUCCESSFULLY")
     print("=" * 80)
     print()
-    print("Output directory: /home/kawaiikali/event-study/publication_figures/")
+    print(f"Output directory: {config.PUBLICATION_DIR / 'figures'}/")
     print()
     print("Formats generated: PDF (vector), SVG (vector)")
     print("Features:")

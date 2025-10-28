@@ -28,9 +28,9 @@ import sys
 from pathlib import Path
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent))
-from data_preparation import DataPreparation
-from tarch_x_manual import estimate_tarch_x_manual
+sys.path.append(str(Path(__file__).parent.parent))
+from code.core.data_preparation import DataPreparation
+from code.core.tarch_x_manual import estimate_tarch_x_manual
 
 
 @dataclass

@@ -12,8 +12,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from datetime import datetime
+from code.core import config
 
-DATA_DIR = Path('/home/kawaiikali/event-study/data')
+DATA_DIR = Path(config.DATA_DIR)
 
 class ValidationError(Exception):
     """Custom exception for validation failures"""
@@ -271,7 +272,7 @@ def main():
         print("✗ DATA FILES NOT FOUND")
         print("=" * 80)
         print(f"\n{e}")
-        print("\nCreate the required data files in: /home/kawaiikali/event-study/data/")
+        print(f"\nCreate the required data files in: {DATA_DIR}/")
         print("Use data_preparation_template.py as a guide.")
         print()
         return 1

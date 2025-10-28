@@ -18,13 +18,13 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 
 # Add code directory to path
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels
-from event_impact_analysis import EventImpactAnalysis
-from bootstrap_inference import BootstrapInference
-from robustness_checks import RobustnessChecks
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels
+from code.analysis.event_impact_analysis import EventImpactAnalysis
+from code.inference.bootstrap_inference import BootstrapInference
+from code.robustness.robustness_checks import RobustnessChecks
 
 
 class HypothesisTestingResults:

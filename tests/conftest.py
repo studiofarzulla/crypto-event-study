@@ -12,11 +12,11 @@ from datetime import datetime, timedelta
 import warnings
 
 # Add code directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'event_study' / 'code'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels
-import config
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels
+from code.core import config
 
 
 # ==============================================================================

@@ -12,10 +12,10 @@ from pathlib import Path
 import sys
 
 # Add the manual implementation to your imports
-sys.path.append(str(Path(__file__).parent))
-from tarch_x_manual import estimate_tarch_x_manual, TARCHXResults
-from data_preparation import DataPreparation
-from garch_models import ModelResults
+sys.path.append(str(Path(__file__).parent.parent))
+from code.core.tarch_x_manual import estimate_tarch_x_manual, TARCHXResults
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import ModelResults
 
 
 class EnhancedGARCHModels:

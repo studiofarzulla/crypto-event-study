@@ -12,9 +12,9 @@ import numpy as np
 from pathlib import Path
 import json
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels, estimate_models_for_all_cryptos
-from event_impact_analysis import EventImpactAnalysis, run_complete_analysis
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels, estimate_models_for_all_cryptos
+from code.analysis.event_impact_analysis import EventImpactAnalysis, run_complete_analysis
 
 
 pytestmark = pytest.mark.integration

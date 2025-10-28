@@ -13,10 +13,10 @@ import warnings
 from pathlib import Path
 import sys
 
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels, ModelResults
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels, ModelResults
 
 
 class EventImpactAnalysis:

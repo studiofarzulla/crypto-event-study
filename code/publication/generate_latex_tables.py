@@ -14,8 +14,9 @@ Output format compatible with Journal of Finance, JFE, RFS style guides.
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from code.core import config
 
-OUTPUT_DIR = Path('/home/kawaiikali/event-study/publication_tables')
+OUTPUT_DIR = config.PUBLICATION_DIR / 'latex'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def format_coef_se(coef, se, pval):

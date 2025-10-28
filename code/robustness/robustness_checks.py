@@ -15,11 +15,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
 
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels, estimate_models_for_crypto
-from event_impact_analysis import EventImpactAnalysis
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels, estimate_models_for_crypto
+from code.analysis.event_impact_analysis import EventImpactAnalysis
 
 
 class RobustnessChecks:

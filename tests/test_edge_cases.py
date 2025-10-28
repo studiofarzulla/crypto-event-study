@@ -10,8 +10,8 @@ import pandas as pd
 import numpy as np
 from datetime import timedelta
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels
 
 
 pytestmark = pytest.mark.edge_case

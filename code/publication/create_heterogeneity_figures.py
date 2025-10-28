@@ -61,7 +61,8 @@ COLORS = {
 
 def ensure_output_dir():
     """Create output directory for publication figures"""
-    output_dir = Path('/home/kawaiikali/event-study/publication_figures')
+    from code.core import config
+    output_dir = config.PUBLICATION_DIR / 'figures'
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
@@ -87,7 +88,8 @@ def save_figure(fig, filename):
 
 def load_results_data():
     """Load the actual event study results"""
-    base_path = Path('/home/kawaiikali/event-study/event_study/outputs')
+    from code.core import config
+    base_path = Path(config.OUTPUTS_DIR)
 
     # Load cross-sectional analysis (crypto-level effects)
     crypto_df = pd.read_csv(base_path / 'analysis_results' / 'analysis_by_crypto.csv')
@@ -454,10 +456,11 @@ def main():
     # Generate LaTeX table
     generate_latex_table(crypto_df)
 
+    from code.core import config
     print("\n" + "=" * 80)
     print("ALL FIGURES GENERATED SUCCESSFULLY")
     print("=" * 80)
-    print("\nOutput directory: /home/kawaiikali/event-study/publication_figures/")
+    print(f"\nOutput directory: {config.PUBLICATION_DIR / 'figures'}/")
     print("\nFiles generated:")
     print("  • figure1_heterogeneity.pdf (THE MONEY SHOT)")
     print("  • figure1_heterogeneity.png")

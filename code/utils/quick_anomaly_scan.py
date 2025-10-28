@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
+from code.core import config
 
 # Quick anomaly scan for FTX event
-DATA_DIR = "/home/kawaiikali/event-study/event_study/data"
+DATA_DIR = config.DATA_DIR
 FTX_DATE = pd.Timestamp("2022-11-11", tz='UTC')
 
 symbols = ['btc', 'eth', 'bnb', 'ada', 'xrp', 'ltc']

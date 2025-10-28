@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-from garch_models import GARCHModels, ModelResults, estimate_models_for_crypto
+from code.core.garch_models import GARCHModels, ModelResults, estimate_models_for_crypto
 
 
 pytestmark = pytest.mark.statistical

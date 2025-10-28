@@ -68,8 +68,8 @@ if missing_volatility:
     print()
     print("```python")
     print("# After running GARCH estimation:")
-    print("from event_study.code.garch_models import GARCHModels")
-    print("from event_study.code.data_preparation import DataPreparation")
+    print("from code.core.garch_models import GARCHModels")
+    print("from code.core.data_preparation import DataPreparation")
     print()
     print("# For each crypto:")
     print("for crypto in ['btc', 'eth', 'xrp', 'bnb', 'ltc', 'ada']:")
@@ -112,10 +112,10 @@ import sys
 from pathlib import Path
 
 # Add project to path
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
-from event_study.code.garch_models import GARCHModels
-from event_study.code.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels
+from code.core.data_preparation import DataPreparation
 
 print("Extracting conditional volatility from GARCH models...")
 print("="*80)

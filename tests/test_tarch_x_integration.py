@@ -9,10 +9,10 @@ import pandas as pd
 import numpy as np
 
 # Add code directory to path
-sys.path.append(str(Path(__file__).parent / 'code'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from data_preparation import DataPreparation
-from garch_models import GARCHModels
+from code.core.data_preparation import DataPreparation
+from code.core.garch_models import GARCHModels
 
 def test_tarch_x_integration():
     """

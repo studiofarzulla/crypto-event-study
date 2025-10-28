@@ -13,7 +13,7 @@ except ImportError:
     pass
 
 # Base directory (project root)
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).parent.parent.parent
 
 # Data paths
 DATA_DIR = os.getenv('DATA_DIR', str(BASE_DIR / 'data'))

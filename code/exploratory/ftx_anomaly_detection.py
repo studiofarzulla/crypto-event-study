@@ -17,14 +17,15 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 from scipy import stats
 import json
+from code.core import config
 
 # Set style
 sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (16, 10)
 
 # Paths
-DATA_DIR = "/home/kawaiikali/event-study/event_study/data"
-OUTPUT_DIR = "/home/kawaiikali/event-study/event_study/outputs"
+DATA_DIR = config.DATA_DIR
+OUTPUT_DIR = config.OUTPUTS_DIR
 
 # FTX bankruptcy event
 FTX_EVENT_DATE = pd.Timestamp("2022-11-11", tz='UTC')
