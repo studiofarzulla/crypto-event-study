@@ -1,85 +1,57 @@
-\documentclass[12pt,letterpaper]{article}
+\documentclass{article}
 
 % ====================
 % PACKAGE IMPORTS
 % ====================
-
-% Page layout and geometry
+\usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{setspace}
-
-% Mathematics and symbols
+\usepackage{mathptmx}  % Times New Roman font for text and math
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{mathtools}
-
-% Graphics and figures
+\usepackage{cite}
+\usepackage{setspace}
+\usepackage{titlesec}
 \usepackage{graphicx}
-\usepackage{float}
-\usepackage[font=small,labelfont=bf]{caption}
-
-% Tables
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{longtable}
-
-% Bibliography and citations
 \usepackage[authoryear,round]{natbib}
-\bibliographystyle{agsm}
-
-% Cross-referencing and hyperlinks
-\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
-\usepackage[noabbrev]{cleveref}
-
-% Fonts and encoding
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-
-% Additional formatting
-\usepackage{abstract}
-\usepackage{titlesec}
-\usepackage{enumitem}
-\usepackage{microtype}
-
-% License symbol
 \usepackage{ccicons}
+\usepackage{enumitem}  % For customizable lists
 
 % Graphics path
 \graphicspath{{outputs/publication/figures/}}
 
-% ====================
-% DOCUMENT FORMATTING
-% ====================
+% Bibliography style
+\bibliographystyle{agsm}
 
-% Section formatting
-\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
-
-% Abstract formatting
-\renewcommand{\abstractnamefont}{\normalfont\bfseries}
-\renewcommand{\abstracttextfont}{\normalfont\small}
-
-% Spacing
-\setlength{\parskip}{0.5em}
-\setlength{\parindent}{0em}
-
-% Line spacing
-\onehalfspacing
+% Two-column layout configuration
+\setlength{\columnsep}{0.5in}  % Space between columns
 
 % ====================
-% METADATA
+% HYPERREF CONFIGURATION
+% ====================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=blue,
+    pdftitle={Differential Volatility Responses to Infrastructure and Regulatory Events in Cryptocurrency Markets},
+    pdfauthor={Murad Farzulla},
+}
+
+% ====================
+% TITLE AND AUTHOR
 % ====================
 
-\title{\Large\bfseries Differential Volatility Responses to Infrastructure and Regulatory Events in Cryptocurrency Markets: A TARCH-X Analysis}
+\title{Differential Volatility Responses to Infrastructure and Regulatory Events in Cryptocurrency Markets: A TARCH-X Analysis}
 
 \author{
-    \textbf{Murad Farzulla}\thanks{Corresponding author. Email: \href{mailto:contact@farzulla.org}{contact@farzulla.org}. ORCID: \href{https://orcid.org/0000-0002-3669-4621}{0000-0002-3669-4621}.} \\
-    \small Farzulla Research \\
-    \small \url{https://farzulla.org}
+    Murad Farzulla\thanks{Corresponding author. Email: contact@farzulla.org. ORCID: 0000-0002-3669-4621.} \\
+    \textit{Farzulla Research}
 }
 
 \date{November 2025 (Revised)}
@@ -90,9 +62,7 @@
 
 \begin{document}
 
-% ====================
-% FRONTMATTER (SINGLE COLUMN)
-% ====================
+\setstretch{1.5}  % Set 1.5 line spacing throughout document
 
 \maketitle
 
@@ -133,17 +103,11 @@
 
 \textbf{JEL Classification:} G12, G14, G15, G18, C22, C58
 
-\vspace{2em}
-
-% ====================
-% TWO-COLUMN LAYOUT BEGINS
-% ====================
-
-\twocolumn
-
 % ====================
 % MAIN BODY
 % ====================
+
+\twocolumn  % Switch to two-column layout after front matter
 
 \section{Introduction}
 
@@ -153,11 +117,11 @@
 
 \subsection{Research Hypotheses}
 
-\textbf{Primary Hypothesis (H1): Asymmetric Volatility Response} -- Market structure/infrastructure events generate significantly larger volatility impacts than regulatory events due to immediate liquidity disruption versus gradual information absorption mechanisms.
+{\small\textbf{Primary Hypothesis (H1): Asymmetric Volatility Response}} -- Market structure/infrastructure events generate significantly larger volatility impacts than regulatory events due to immediate liquidity disruption versus gradual information absorption mechanisms.
 
-\textbf{Secondary Hypothesis (H2): Sentiment Leading Indicator} -- News sentiment (GDELT-derived) serves as a leading indicator for volatility asymmetries, with infrastructure events showing immediate sentiment-volatility correlation versus regulatory events showing lagged responses.
+{\small\textbf{Secondary Hypothesis (H2): Sentiment Leading Indicator}} -- News sentiment (GDELT-derived) serves as a leading indicator for volatility asymmetries, with infrastructure events showing immediate sentiment-volatility correlation versus regulatory events showing lagged responses.
 
-\textbf{Methodological Hypothesis (H3): TARCH-X Superiority} -- TARCH-X models incorporating sentiment proxies outperform standard GARCH specifications in capturing asymmetric volatility responses to different event types in cryptocurrency markets.
+{\small\textbf{Methodological Hypothesis (H3): TARCH-X Superiority}} -- TARCH-X models incorporating sentiment proxies outperform standard GARCH specifications in capturing asymmetric volatility responses to different event types in cryptocurrency markets.
 
 The cryptocurrency market's transformation from experimental technology to a three-trillion-dollar asset class has created unprecedented challenges for understanding information processing in financial markets \citep{Reuters2021}. Since Bitcoin's inception in 2009, digital assets have developed unique structural characteristics -- continuous 24/7 trading, fragmented exchange infrastructure, predominantly retail participation, and critical technological dependencies -- that fundamentally distinguish them from traditional financial markets. These features violate core assumptions of classical market efficiency theory and necessitate new frameworks for understanding how different information types are processed and incorporated into prices \citep{MakarovSchoar2020}.
 
@@ -187,7 +151,7 @@ The practical implications are substantial: portfolio managers should employ dif
 
 \section{Literature Review}
 
-\subsection{Theoretical Foundations: Market Efficiency and Information Processing in Digital Asset Markets}
+\subsection{Theoretical Foundations: Market Efficiency and Infor\-mation Processing in Digital Asset Markets}
 
 The theoretical foundation for understanding cryptocurrency market responses to different event types rests on the intersection of market microstructure theory, information economics, and behavioural finance. The Efficient Market Hypothesis (EMH), as formulated by \citet{Fama1970}, provides the baseline theoretical expectation that markets should rapidly incorporate all available information into asset prices. Under the strong-form EMH, both regulatory information and infrastructure disruptions would be immediately reflected in prices with no persistent abnormal volatility effects. However, the unique characteristics of cryptocurrency markets, including continuous trading, fragmented exchanges, heterogeneous participant composition, and technological barriers, create conditions that may fundamentally violate EMH assumptions and enable differential processing of distinct information types \citep{LiuTsyvinski2021}.
 
@@ -207,7 +171,7 @@ The market microstructure literature provides crucial insights into how the uniq
 
 Recent microstructure analysis confirms that cryptocurrency markets exhibit liquidity and price discovery patterns similar to other investible asset classes, with predictable cross-market effects particularly evident between Bitcoin and Ethereum \citep{EasleyEtAl2024}.
 
-\subsection{Information Processing, Behavioural Factors, and Sentiment Dynamics}
+\subsection{Information Processing, Be\-havi\-oural Factors, and Sentiment Dynamics}
 
 The role of retail investors and behavioural biases in cryptocurrency markets has important implications for how different types of events are processed and how sentiment indicators might predict volatility responses. \citet{GlaserEtAl2014} provide early evidence that cryptocurrency users are primarily motivated by speculative rather than transactional considerations, suggesting that price formation in these markets may be more susceptible to sentiment and herding behaviours than traditional asset markets, with potentially different responses to operational versus regulatory threats.
 
@@ -227,7 +191,7 @@ This asymmetry has critical implications for comparing infrastructure and regula
 
 The incorporation of exogenous variables into asymmetric volatility models enables decomposition of total volatility into baseline dynamics, continuous sentiment-driven pressure, and discrete event shocks, essential for testing whether different event types exhibit distinct volatility signatures and adjustment patterns.
 
-\subsection{Event Studies in Cryptocurrency Markets: From Price to Volatility Effects}
+\subsection{Event Studies in Cryptocurrency Markets: From Price to Vol\-a\-til\-i\-ty Effects}
 
 The empirical literature on event impacts in cryptocurrency markets has evolved from early studies focusing primarily on price effects to more sophisticated analyses of volatility dynamics. However, the extant literature has yet to systematically compare infrastructure and regulatory events within a unified framework.
 
@@ -251,22 +215,22 @@ Whilst regulatory events have received significant attention, the systematic stu
 
 Recent developments in decentralised finance (DeFi) have introduced novel infrastructure vulnerabilities, including flash loan attacks and automated market maker failures. Flash loans, which enable uncollateralised borrowing within single blockchain transactions, have facilitated over \$6.5 billion in exploits since DeFi's inception \citep{SaggersEtAl2023}. These attacks represent a distinct category of infrastructure events that can generate immediate liquidity crises and market disruption, complementing traditional exchange failures in my event taxonomy.
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \centering
 \caption{Event Study Methodologies in Cryptocurrency Literature}
 \label{tab:lit_comparison}
 \small
-\begin{tabular}{@{}p{2cm}p{1cm}p{1.5cm}p{0.8cm}p{0.8cm}p{1.2cm}@{}}
+\begin{tabular}{@{}llllll@{}}
 \toprule
-\textbf{Paper} & \textbf{Assets} & \textbf{Event Types} & \textbf{Window} & \textbf{Sentiment} & \textbf{Volatility Model} \\
+\textbf{Paper} & \textbf{Assets} & \textbf{Event Types} & \textbf{Window} & \textbf{Sent.} & \textbf{Vol. Model} \\
 \midrule
 Auer \& Claessens (2018) & BTC, ETH & Regulatory & $\pm$10d & No & Price only \\
 Saggu et al. (2025) & Multi & Regulatory & $\pm$3d & Yes & GARCH \\
 Zhang et al. (2023) & BTC & Regulatory & $\pm$20d & No & GARCH \\
-Caferra \& Vidal-Tomás (2021) & Multi & Infrastructure & $\pm$5d & Yes (GDELT) & GARCH \\
+Caferra \& Vidal-Tomás (2021) & Multi & Infrastructure & $\pm$5d & GDELT & GARCH \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \subsubsection{Flash Loans and DeFi Infrastructure Vulnerabilities}
 
@@ -274,7 +238,7 @@ The emergence of decentralised finance has introduced novel infrastructure vulne
 
 \citet{GudgeonEtAl2020} develop a comprehensive taxonomy of DeFi attack vectors, categorising vulnerabilities into: (i) economic attacks exploiting protocol incentive misalignments, (ii) governance attacks manipulating voting mechanisms, and (iii) technical attacks exploiting smart contract bugs. Their framework reveals that 60\% of DeFi failures stem from economic design flaws rather than coding errors, challenging the conventional focus on technical audits. \citet{ZhouEtAl2021} analyse the market microstructure implications of automated market makers (AMMs), demonstrating that sandwich attacks, where attackers manipulate prices before and after user trades, extract over \$500 million annually from DEX users, representing a persistent infrastructure vulnerability that affects daily price formation.
 
-\subsection{Sentiment Indices and Leading Indicators in Digital Asset Markets}
+\subsection{Sentiment Indices and Leading Indi\-ca\-tors in Digital Asset Markets}
 
 The development of cryptocurrency-specific sentiment measures has evolved from adaptations of traditional finance methodologies to novel approaches leveraging the unique data environment of digital asset markets. Whilst established indices like the Cryptocurrency Regulatory Risk Index (CRRIX) by \citet{NiEtAl2021} and the Volatility Cryptocurrency Index (VCRIX) by \citet{KimEtAl2021} provide validated measures of risk and uncertainty, data availability constraints and methodological opacity limit their practical application for comparative event analysis.
 
@@ -346,11 +310,11 @@ Classification followed a decision tree: (1) If normal execution/settlement mech
 
 With $[-3,+3]$ event windows, any events within 6 days produce overlaps. After consolidation, three pairs required special treatment:
 
-\textbf{(A) SEC v Binance (June 5) and SEC v Coinbase (June 6, 2023):} Treated as a single regulatory episode with composite dummy $D_{\text{SEC\_enforcement}}$ for [June 2 to 9], recognising coordinated enforcement action.
+{\small\textbf{(A) SEC v Binance (June 5) and SEC v Coinbase (June 6, 2023):}} Treated as a single regulatory episode with composite dummy $D_{\text{SEC\_enforcement}}$ for [June 2 to 9], recognising coordinated enforcement action.
 
-\textbf{(B) Ethereum EIP-1559 (Aug 5) and Poly Network hack (Aug 10, 2021):} Retained as separate events with proportional weighting (0.5) during overlap period [Aug 7 to 8] to prevent double-counting whilst preserving distinct shock identification, acknowledging this approach treats overlapping days as equally attributable to both events.
+{\small\textbf{(B) Ethereum EIP-1559 (Aug 5) and Poly Network hack (Aug 10, 2021):}} Retained as separate events with proportional weighting (0.5) during overlap period [Aug 7 to 8] to prevent double-counting whilst preserving distinct shock identification, acknowledging this approach treats overlapping days as equally attributable to both events.
 
-\textbf{(C) Bybit hack (Feb 21) and SEC-Coinbase dismissal (Feb 27, 2025):} Cross-channel events handled through truncated windows, with Bybit [Feb 18 to 23], SEC dismissal [Feb 27 to Mar 2], and intervening days excluded.
+{\small\textbf{(C) Bybit hack (Feb 21) and SEC-Coinbase dismissal (Feb 27, 2025):}} Cross-channel events handled through truncated windows, with Bybit [Feb 18 to 23], SEC dismissal [Feb 27 to Mar 2], and intervening days excluded.
 
 \subsubsection{Final Event Distribution}
 
@@ -372,9 +336,9 @@ The methodology employs a three-stage process:
 
 Primary terms: `bitcoin', `cryptocurrency', `ethereum' plus theme codes (e.g., `ECON\_BITCOIN')
 
-Regulatory identifiers: Policy theme codes (`EPU\_CATS\_REGULATION', `EPU\_CATS\_FINANCIAL\_REGULATION') requiring cryptocurrency co-occurrence
+Regulatory identifiers: Policy theme codes (`EPU\_CATS\_\allowbreak REGULATION', `EPU\_CATS\_\allowbreak FINANCIAL\_\allowbreak REGULATION') requiring crypto\-currency co-occurrence
 
-Infrastructure markers: Crisis taxonomy codes (`ECON\_BANKRUPTCY', `CYBER\_ATTACK', `MANMADE\_DISASTER') with cryptocurrency context
+Infrastructure markers: Crisis taxonomy codes (`ECON\_\allowbreak BANKRUPTCY', `CYBER\_\allowbreak ATTACK', `MANMADE\_\allowbreak DISASTER') with cryptocurrency context
 
 This approach yields average weekly coverage of 26.7\% for regulatory and 26.5\% for infrastructure content, capturing both discrete events and persistent thematic discourse across 348 weekly observations. Weekly aggregation balances computational efficiency with analytical validity by smoothing daily noise \citep{HuangEtAl2018}.
 
@@ -422,7 +386,7 @@ This baseline specification captures volatility clustering but assumes symmetric
 
 The TARCH specification \citep{GlostenEtAl1993} introduces leverage parameter $\gamma_1$ to capture asymmetric volatility responses, where $I(\varepsilon_{t-1}<0)$ equals one for negative returns. This addresses documented asymmetries in cryptocurrency markets \citep{Katsiampa2017, CheikhEtAl2020}.
 
-\textbf{Model 3: TARCH-X with Event Dummies and Sentiment}
+{\small\textbf{Model 3: TARCH-X with Event Dummies and Sentiment}}
 \begin{multline}
 \sigma^2_t = \omega + \alpha_1 \varepsilon^2_{t-1} + \gamma_1 \varepsilon^2_{t-1} I(\varepsilon_{t-1}<0) + \beta_1 \sigma^2_{t-1} \\
 + \sum_j \delta_j D_{j,t} + \theta_1 S_t^{\text{REG}} + \theta_2 S_t^{\text{INFRA}}
@@ -466,8 +430,10 @@ Model adequacy is assessed through:
 
 Cross-asset effects are summarised using inverse-variance weighted averages of event coefficients. Primary outcomes focus on average conditional variance changes at $t=[0,+2]$, with secondary analyses examining persistence and cross-asset patterns.
 
-Event volatility impacts are calculated as: Impact = $(\sigma^2_{\text{event}}/\sigma^2_{\text{baseline}}) - 1$
-
+Event volatility impacts are calculated as:
+\[
+\text{Impact} = \frac{\sigma^2_{\text{event}}}{\sigma^2_{\text{baseline}}} - 1
+\]
 where $\sigma^2_{\text{baseline}}$ uses days $t-34$ to $t-4$ (pre-event only) and $\sigma^2_{\text{event}}$ uses days $t-3$ to $t+3$. This ensures baseline volatility is not contaminated by post-event effects.
 
 For H2, I test sentiment-volatility relationships using cross-correlation analysis at weekly lags from $-4$ to $+4$, with Granger causality tests to establish directional relationships.
@@ -502,7 +468,7 @@ Event distribution across the sample period shows reasonable balance, with 27 in
 
 \subsubsection{Baseline GARCH Specifications}
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \centering
 \caption{Model Comparison: GARCH vs TARCH vs TARCH-X}
 \label{tab:model_comparison}
@@ -536,7 +502,7 @@ ADA & GARCH(1,1) & 14091.20 & 14120.18 & $-7040.60$ \\
     & TARCH-X    & 14092.00 & 14155.77 & $-7035.00$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 Table \ref{tab:model_comparison} presents estimation results for the three nested model specifications across all cryptocurrencies. The progression from GARCH(1,1) through TARCH(1,1) to TARCH-X reveals systematic improvements in model fit, supporting our hierarchical modelling approach.
 
@@ -569,16 +535,16 @@ The primary test of H1 examines whether infrastructure events generate larger vo
 \item Multiplier: 5.5$\times$ (infrastructure / regulatory)
 \end{itemize}
 
-\textbf{Statistical Validation (Multiple Tests):}
+{\small\textbf{Statistical Validation (Multiple Tests):}}
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \centering
 \caption{Statistical Tests for Infrastructure vs Regulatory Difference}
 \label{tab:hypothesis_tests}
-\small
-\begin{tabular}{@{}lccl@{}}
+\footnotesize
+\begin{tabular}{@{}lccp{2.3cm}@{}}
 \toprule
-\textbf{Test} & \textbf{Statistic} & \textbf{$p$-value} & \textbf{Interpretation} \\
+\textbf{Test} & \textbf{Stat.} & \textbf{$p$-value} & \textbf{Interpretation} \\
 \midrule
 Independent $t$-test & $t = 4.62$ & $0.0057^{**}$ & Highly significant \\
 Mann-Whitney U & $U = 34.0$ & $0.0043^{**}$ & Robust to outliers \\
@@ -587,16 +553,17 @@ Inverse-var weighted $Z$ & $Z = 3.64$ & $0.0003^{***}$ & Precision-weighted \\
 \bottomrule
 \multicolumn{4}{l}{\footnotesize $^{**}p<0.01$, $^{***}p<0.001$}
 \end{tabular}
-\end{table}
+\end{table*}
 
 \begin{figure*}[htbp]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figure1_infrastructure_vs_regulatory.pdf}
-    \caption{Infrastructure Events Generate 5.5$\times$ Larger Volatility Impacts}
-    \label{fig:infrastructure_vs_regulatory}
+\centering
+\includegraphics[width=0.85\textwidth]{figure1_infrastructure_vs_regulatory.pdf}
+\caption{Infrastructure Events Generate 5.5$\times$ Larger Volatility Impacts}
+\label{fig:infrastructure_vs_regulatory}
 
-    \footnotesize
-    Box plots comparing volatility impact coefficients for infrastructure events (red, $n=6$) versus regulatory events (green, $n=6$) across all cryptocurrencies. Infrastructure events show significantly larger mean impacts (2.32\% vs 0.42\%, $p=0.0057$, Cohen's $d=2.88$). Diamond markers indicate means, horizontal lines indicate medians. Individual data points (white circles) represent cryptocurrency-specific estimates with jitter for visibility. Statistical significance determined by two-sample $t$-test with unequal variances.
+
+\footnotesize
+Box plots comparing volatility impact coefficients for infrastructure events (red, $n=6$) versus regulatory events (green, $n=6$) across all cryptocurrencies. Infrastructure events show significantly larger mean impacts (2.32\% vs 0.42\%, $p=0.0057$, Cohen's $d=2.88$). Diamond markers indicate means, horizontal lines indicate medians. Individual data points (white circles) represent cryptocurrency-specific estimates with jitter for visibility. Statistical significance determined by two-sample $t$-test with unequal variances.
 \end{figure*}
 
 All four tests converge on highly significant differences ($p < 0.01$), with the inverse-variance weighted analysis showing even stronger significance ($p=0.0003$) by giving greater weight to precisely estimated coefficients. The Cohen's $d$ of 2.88 exceeds conventional thresholds for ``huge'' effect sizes ($d > 1.20$), indicating the difference is not only statistically significant but economically substantial.
@@ -620,11 +587,11 @@ The consistency of this pattern across all six assets, despite substantial varia
 
 While the infrastructure-regulatory asymmetry represents the primary finding, substantial cross-sectional variation exists within infrastructure event responses:
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \centering
 \caption{Infrastructure Sensitivity Rankings}
 \label{tab:infrastructure_rankings}
-\small
+\footnotesize
 \begin{tabular}{@{}clrrrl@{}}
 \toprule
 \textbf{Rank} & \textbf{Crypto} & \textbf{Effect (\%)} & \textbf{$p$ (raw)} & \textbf{$p$ (FDR)} & \textbf{Sig.} \\
@@ -636,18 +603,18 @@ While the infrastructure-regulatory asymmetry represents the primary finding, su
 5 & BNB & 1.45 & 0.041 & 0.123 & No \\
 6 & BTC & 1.13 & 0.027 & 0.123 & No \\
 \bottomrule
-\multicolumn{6}{l}{\footnotesize \textbf{Spread:} 2.24 percentage points (ADA to BTC)}
+\multicolumn{6}{l}{\footnotesize \textbf{Spread:} 2.24pp (ADA to BTC)}
 \end{tabular}
-\end{table}
+\end{table*}
 
 \begin{figure*}[htbp]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figure2_infrastructure_sensitivity.pdf}
-    \caption{Cross-Sectional Heterogeneity in Infrastructure Event Sensitivity}
-    \label{fig:infrastructure_sensitivity}
+\centering
+\includegraphics[width=0.85\textwidth]{figure2_infrastructure_sensitivity.pdf}
+\caption{Cross-Sectional Heterogeneity in Infrastructure Event Sensitivity}
+\label{fig:infrastructure_sensitivity}
 
-    \footnotesize
-    Horizontal bar chart showing infrastructure event sensitivity coefficients across six major cryptocurrencies, sorted by magnitude. Bars in red indicate FDR-corrected significance at $q < 0.05$ (only ETH, $p=0.016$); gray bars indicate non-significant effects. Error bars represent standard errors. The 2.24 percentage point spread between ADA (3.37\%) and BTC (1.13\%) demonstrates substantial cross-sectional heterogeneity in cryptocurrency responses to infrastructure events.
+\footnotesize
+Horizontal bar chart showing infrastructure event sensitivity coefficients across six major cryptocurrencies, sorted by magnitude. Bars in red indicate FDR-corrected significance at $q < 0.05$ (only ETH, $p=0.016$); gray bars indicate non-significant effects. Error bars represent standard errors. The 2.24 percentage point spread between ADA (3.37\%) and BTC (1.13\%) demonstrates substantial cross-sectional heterogeneity in cryptocurrency responses to infrastructure events.
 \end{figure*}
 
 \textbf{FDR Correction Impact:} After Benjamini-Hochberg correction at $\alpha=0.10$, only ETH infrastructure effect survives (adjusted $p=0.016$). This stringent correction controls for 12 hypothesis tests (6 assets $\times$ 2 event types), with an expected false discovery rate of 10\%. The correction eliminates 3 of 4 nominally significant raw $p$-values, demonstrating appropriate Type I error control.
@@ -725,13 +692,13 @@ provides an elegant solution for constructing thematic sentiment indices without
 Model comparison via information criteria provides strong support for H3, with TARCH-X specifications achieving the lowest AIC for five of six cryptocurrencies (BTC, ETH, XRP, BNB, LTC), representing 83\% AIC preference rate. The single exception (ADA) shows marginal underperformance (+1 AIC point), effectively equivalent given estimation uncertainty.
 
 \begin{figure*}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figure4_tarchx_performance.pdf}
-    \caption{TARCH-X Model Performance: Parsimony-Performance Trade-off}
-    \label{fig:tarchx_performance}
+\centering
+\includegraphics[width=0.85\textwidth]{figure4_tarchx_performance.pdf}
+\caption{TARCH-X Model Performance: Parsimony-Performance Trade-off}
+\label{fig:tarchx_performance}
 
-    \footnotesize
-    Dual-panel comparison of TARCH-X model performance relative to baseline GARCH(1,1) using information criteria. Panel A shows AIC differences (TARCH-X wins 5/6, 83\%), while Panel B shows BIC differences (TARCH-X wins 0/6, 0\%). Negative values (green bars) indicate TARCH-X superiority; positive values (red bars) indicate baseline superiority. AIC favors TARCH-X due to improved fit, while BIC penalizes additional parameters, illustrating the parsimony-performance trade-off.
+\footnotesize
+Dual-panel comparison of TARCH-X model performance relative to baseline GARCH(1,1) using information criteria. Panel A shows AIC differences (TARCH-X wins 5/6, 83\%), while Panel B shows BIC differences (TARCH-X wins 0/6, 0\%). Negative values (green bars) indicate TARCH-X superiority; positive values (red bars) indicate baseline superiority. AIC favors TARCH-X due to improved fit, while BIC penalizes additional parameters, illustrating the parsimony-performance trade-off.
 \end{figure*}
 
 AIC improvements from GARCH(1,1) to TARCH-X range from $-1$ point (XRP, BNB) to $-15$ points (ETH), demonstrating consistent information gain despite BIC penalties. The model hierarchy shows progressive improvements from symmetric to asymmetric to exogenous variable specifications.
@@ -1103,9 +1070,10 @@ The full SQL implementation is available in the project repository at: \url{http
 
 Given limitations in existing econometric software for implementing exogenous variables directly in the variance equation, this study developed a custom maximum likelihood estimator. The implementation ensures precise specification of the theoretical model where conditional variance follows:
 
-\begin{equation*}
-\sigma^2_t = \omega + \alpha \cdot \varepsilon^2_{t-1} + \gamma \cdot \varepsilon^2_{t-1} \cdot I(\varepsilon_{t-1} < 0) + \beta \cdot \sigma^2_{t-1} + \sum_j \delta_j \cdot x_{j,t}
-\end{equation*}
+\begin{multline*}
+\sigma^2_t = \omega + \alpha \cdot \varepsilon^2_{t-1} + \gamma \cdot \varepsilon^2_{t-1} \cdot I(\varepsilon_{t-1} < 0) \\
++ \beta \cdot \sigma^2_{t-1} + \sum_j \delta_j \cdot x_{j,t}
+\end{multline*}
 
 The manual implementation provides full control over the optimisation process, transparent likelihood function specification, and proper computation of robust standard errors via numerical Hessian. The complete Python implementation spans approximately 400 lines and includes parameter constraint handling, Student-$t$ likelihood computation, and bootstrap inference capabilities.
 
@@ -1120,7 +1088,7 @@ This November 2025 revision incorporates corrected statistical analysis conducte
 
 \subsubsection*{Key Numerical Changes}
 
-\textbf{Hypothesis 1 (Infrastructure vs Regulatory):}
+{\small\textbf{Hypothesis 1 (Infrastructure vs Regulatory):}}
 \begin{itemize}[leftmargin=*,nosep]
 \item OLD: Infrastructure 41.7\% vs Regulatory 41.5\%, $p=0.997$ (null result)
 \item NEW: Infrastructure 2.32\% vs Regulatory 0.42\%, $p=0.0057$ (highly significant)
@@ -1154,12 +1122,12 @@ This November 2025 revision incorporates corrected statistical analysis conducte
 
 \subsubsection*{Hypothesis Outcomes}
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \centering
 \caption{Hypothesis Outcome Changes}
 \label{tab:hypothesis_changes}
-\small
-\begin{tabular}{@{}lll@{}}
+\footnotesize
+\begin{tabular}{@{}lp{2.2cm}p{2.5cm}@{}}
 \toprule
 \textbf{Hypothesis} & \textbf{OLD Status} & \textbf{NEW Status} \\
 \midrule
@@ -1168,7 +1136,7 @@ H2: Sentiment leading & Rejected & \textbf{Partial Support} \\
 H3: TARCH-X superiority & Mixed & \textbf{Supported} (83\% AIC) \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \subsubsection*{Sections Rewritten}
 

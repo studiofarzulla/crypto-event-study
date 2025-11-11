@@ -237,7 +237,9 @@ def create_figure2_infrastructure_sensitivity(crypto_df, fdr_df):
     ax.set_yticks(range(len(cryptos)))
     ax.set_yticklabels(cryptos, fontweight='bold', fontsize=11)
 
-    # X-axis
+    # X-axis (with extra headroom for ADA label)
+    x_max = max(coefficients + std_errors) * 1.15  # Add 15% headroom
+    ax.set_xlim(left=min(coefficients - std_errors) - 0.2, right=x_max)
     ax.set_xlabel('Infrastructure Event Sensitivity (%)', fontweight='bold', fontsize=11)
     ax.set_title('Cross-Sectional Heterogeneity in Infrastructure Event Sensitivity\n' +
                  '2.24 percentage point spread (ADA 3.37% to BTC 1.13%)',
@@ -250,19 +252,19 @@ def create_figure2_infrastructure_sensitivity(crypto_df, fdr_df):
     ax.grid(axis='x', alpha=0.3, linestyle='--', linewidth=0.5)
     ax.set_axisbelow(True)
 
-    # Add legend
+    # Add legend (repositioned to upper left to avoid overlap)
     legend_elements = [
         mpatches.Patch(facecolor='#d62728', edgecolor='black',
                       label='FDR-Significant (q < 0.05)'),
         mpatches.Patch(facecolor='#AAAAAA', edgecolor='black',
                       label='Not FDR-Significant'),
     ]
-    ax.legend(handles=legend_elements, loc='lower right', frameon=True)
+    ax.legend(handles=legend_elements, loc='upper left', frameon=True)
 
-    # Add annotation for spread
+    # Add annotation for spread (repositioned to bottom left)
     spread = coefficients.max() - coefficients.min()
-    ax.text(0.98, 0.02, f'Spread: {spread:.2f}pp\n** ETH only FDR-significant (p=0.016)',
-            transform=ax.transAxes, ha='right', va='bottom',
+    ax.text(0.02, 0.02, f'Spread: {spread:.2f}pp\n** ETH only FDR-significant (p=0.016)',
+            transform=ax.transAxes, ha='left', va='bottom',
             fontsize=9, style='italic',
             bbox=dict(boxstyle='round', facecolor='white', alpha=0.9))
 
