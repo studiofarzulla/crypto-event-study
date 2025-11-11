@@ -12,7 +12,7 @@ from datetime import datetime
 import json
 
 # Add current directory to path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from code.core.data_preparation import DataPreparation
 from code.core.garch_models import estimate_models_for_all_cryptos

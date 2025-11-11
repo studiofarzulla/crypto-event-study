@@ -50,6 +50,8 @@ dissertation-integrated.md
 
 # LaTeX intermediate files
 *.aux
+*.bbl
+*.blg
 *.log
 *.out
 *.toc
