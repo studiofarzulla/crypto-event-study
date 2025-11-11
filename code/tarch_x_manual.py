@@ -243,8 +243,8 @@ class TARCHXEstimator:
             {'type': 'ineq', 'fun': lambda x: x[3] - 1e-8},  # beta > 0
             {'type': 'ineq', 'fun': lambda x: x[4] - 2.1},   # nu > 2 (for finite variance)
             {'type': 'ineq', 'fun': lambda x: 50 - x[4]},    # nu < 50 (for numerical stability)
-            # Stationarity: alpha + beta + gamma/2 < 1
-            {'type': 'ineq', 'fun': lambda x: 0.999 - (x[1] + x[3] + x[2]/2)}
+            # Stationarity: alpha + beta + |gamma|/2 < 1
+            {'type': 'ineq', 'fun': lambda x: 0.999 - (x[1] + x[3] + abs(x[2])/2)}
         ]
         return constraints
     
@@ -307,6 +307,7 @@ class TARCHXEstimator:
                     x0=start_vals,
                     method=method,
                     bounds=bounds,
+                    constraints=self._parameter_constraints(),
                     options={'maxiter': max_iter, 'disp': False}
                 )
             

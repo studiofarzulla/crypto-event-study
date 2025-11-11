@@ -342,6 +342,7 @@ class TARCHXEstimator:
                     x0=start_vals,
                     method=method,
                     bounds=bounds,
+                    constraints=self._parameter_constraints(),
                     options={'maxiter': max_iter, 'disp': False}
                 )
 
