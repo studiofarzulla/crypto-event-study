@@ -319,12 +319,15 @@ class TARCHXEstimator:
         # Starting values
         start_vals = self._get_starting_values()
 
-        # Parameter bounds (alternative to constraints)
+        # Parameter bounds (must be compatible with stationarity constraint)
+        # Since alpha + beta + |gamma|/2 < 0.999, and max(|gamma|/2) = 0.25,
+        # we need alpha + beta < 0.75 in worst case
+        # Setting beta < 0.95 leaves room for alpha (typically 0.03-0.08)
         bounds = [
             (self.MIN_VARIANCE, None),  # omega > 0
             (self.MIN_VARIANCE, 0.3),   # 0 < alpha < 0.3
             (-0.5, 0.5),                # -0.5 < gamma < 0.5 (leverage can be negative)
-            (self.MIN_VARIANCE, 0.999), # 0 < beta < 1
+            (self.MIN_VARIANCE, 0.95),  # 0 < beta < 0.95 (compatible with stationarity)
             (2.1, 50),                  # 2 < nu < 50
         ]
 
