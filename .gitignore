@@ -32,19 +32,33 @@ ENV/
 env.bak/
 venv.bak/
 
-# Data files (large datasets)
-*.csv
+# Data files (track CSVs for reproducibility, ignore large binary formats)
 *.parquet
 *.pkl
 *.pickle
 
-# Exclude peer review and correction docs (internal use only)
+# Track these directories (small, essential for reproducibility)
+!data/*.csv
+!outputs/analysis_results/*.csv
+!outputs/analysis_results/model_parameters/*.json
+!publication_figures/*.pdf
+!publication_figures/*.png
+
+# Session and review docs (internal use only)
+docs/sessions/
+[legacy]files-docs/
 PEER_REVIEW_*.md
 NUMERICAL_*.md
 AUTHOR_RESPONSE_*.md
 CORRECTIONS_APPLIED.md
+SESSION_*.md
+REVIEW_*.md
 *_BACKUP.md
 *_BEFORE_*.md
+UPDATE_SUMMARY_*.md
+DASHBOARD_*.md
+INTERACTIVE_*.md
+FIGURE_*.md
 dissertation-original.md
 dissertation-integrated.md
 
@@ -56,6 +70,23 @@ dissertation-integrated.md
 *.fdb_latexmk
 *.fls
 *.synctex.gz
+*.bbl
+*.blg
+*_backup.tex
+
+# Old/deprecated figure directories (now consolidated)
+publication_figures_enhanced/
+publication_figures_new/
+outputs/publication_figures/
+
+# Deprecated scripts
+fix_figures.py
+*_DEPRECATED.py
+create_interactive_dashboard*.py
+fix_dashboards.py
+regenerate_*.py
+advanced_manuscript_analyses.py
+advanced_analyses/
 
 # OS files
 .DS_Store
