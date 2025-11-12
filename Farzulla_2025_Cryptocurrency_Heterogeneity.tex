@@ -925,9 +925,23 @@ Note: Post-submission analysis identified and corrected implementation details i
 
 \subsubsection{Future Research}
 
-Future research should explore several extensions. First, investigating whether the near-integrated volatility represents a permanent characteristic or temporary phenomenon as markets mature would inform long-term risk modelling. Second, examining cross-asset spillovers during events could reveal whether infrastructure failures create systemic risks while regulatory events remain asset-specific. Third, incorporating microstructure variables such as order flow imbalance and liquidity measures might better capture the mechanical channels through which infrastructure events propagate.
+Future research with access to high-frequency sentiment data could investigate whether regulatory event impacts represent genuine market structure changes or merely sentiment-driven responses to regulatory theatre. The 5.7$\times$ differential suggests market participants distinguish between operational reality and regulatory signaling, but intraday price and sentiment dynamics would enable more precise temporal decomposition.
 
-The integration of machine learning methods for event detection and impact estimation could address the multiple testing challenges inherent in extensive event studies. Natural language processing techniques might enable real-time event classification and severity assessment, moving beyond binary categorisations to continuous impact measures.
+Additional research avenues include:
+
+\begin{itemize}
+\item \textbf{High-frequency analysis:} Intraday data could reveal the temporal dynamics of infrastructure vs regulatory shocks, distinguishing immediate liquidity impacts from slower information diffusion processes and confirming whether mechanical disruptions propagate faster than informational shocks.
+
+\item \textbf{Cross-market contagion:} Investigation of spillover effects between centralized exchanges, DeFi protocols, and traditional financial markets during infrastructure failures would clarify whether these events create systemic risks while regulatory events remain asset-specific.
+
+\item \textbf{Regulatory heterogeneity:} Comparative analysis across jurisdictions (US SEC vs EU MiCA vs Asia-Pacific regimes) could test whether regulatory clarity moderates volatility responses, potentially explaining cross-sectional heterogeneity through differential regulatory exposure.
+
+\item \textbf{Microstructure mechanisms:} Incorporating order flow imbalance, liquidity measures, and funding rates might better capture the mechanical channels through which infrastructure events propagate versus gradual information absorption during regulatory announcements.
+
+\item \textbf{Machine learning approaches:} Deep learning models trained on event embeddings could potentially improve event type classification beyond manual categorization, while NLP techniques might enable real-time event severity assessment moving beyond binary classifications.
+
+\item \textbf{Volatility persistence dynamics:} Investigating whether near-integrated volatility represents a permanent characteristic of cryptocurrency markets or temporary phenomenon as markets mature would inform long-term risk modeling and forecasting strategies.
+\end{itemize}
 
 \subsection{Final Remarks}
 
@@ -1219,8 +1233,8 @@ Regulatory policy:
 \textbf{Zenodo DOI:} 10.5281/zenodo.17449736
 
 \clearpage
-\section*{Appendix E: Robustness Checks and Future Research}
-\addcontentsline{toc}{section}{Appendix E: Robustness Checks and Future Research}
+\section*{Appendix E: Robustness Checks}
+\addcontentsline{toc}{section}{Appendix E: Robustness Checks}
 
 \subsection*{Robustness Checks}
 
@@ -1259,20 +1273,5 @@ Regulatory policy:
 \includegraphics[width=0.85\textwidth]{../publication_figures/placebo_test_robustness.png}
 \caption{Placebo Test Results. Distribution of placebo heterogeneity statistics from 1,000 randomly permuted samples. Observed heterogeneity (red line) significantly exceeds null distribution, confirming genuine event-driven effects.}
 \end{figure}
-
-\clearpage
-
-\subsection*{Future Research Directions}
-
-Future research with access to high-frequency sentiment data could investigate whether regulatory event impacts represent genuine market structure changes or merely sentiment-driven responses to regulatory theatre. The 5.7$\times$ differential suggests market participants distinguish between operational reality and regulatory signaling.
-
-Additional research avenues include:
-
-\begin{itemize}
-\item \textbf{High-frequency analysis:} Intraday price and sentiment data could reveal the temporal dynamics of infrastructure vs regulatory shocks, distinguishing immediate liquidity impacts from slower information diffusion.
-\item \textbf{Cross-market contagion:} Investigation of spillover effects between centralized exchanges, DeFi protocols, and traditional financial markets during infrastructure failures.
-\item \textbf{Regulatory heterogeneity:} Comparative analysis across jurisdictions (US SEC vs EU MiCA vs Asia-Pacific regimes) to test whether regulatory clarity moderates volatility responses.
-\item \textbf{Machine learning approaches:} Deep learning models trained on event embeddings could potentially improve event type classification beyond manual categorization.
-\end{itemize}
 
 \end{document}
