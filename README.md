@@ -4,6 +4,7 @@
 **Date:** November 2025
 **Status:** Working Paper
 **Paper DOI:** [10.5281/zenodo.17449736](https://doi.org/10.5281/zenodo.17449736)
+**Code DOI:** [![DOI](https://zenodo.org/badge/1083765416.svg)](https://doi.org/10.5281/zenodo.17594536)
 **Interactive Dashboard:** [farzulla.org/research/crypto-event-study](https://farzulla.org/research/crypto-event-study/)
 
 ## Abstract
