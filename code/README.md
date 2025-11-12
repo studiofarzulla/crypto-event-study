@@ -1,5 +1,7 @@
 # TARCH-X Implementation Code
 
+[![DOI](https://zenodo.org/badge/1083765416.svg)](https://doi.org/10.5281/zenodo.17594536)
+
 Custom Python implementation of TARCH-X models for cryptocurrency event study analysis.
 
 ## Core Modules
@@ -46,6 +48,40 @@ from code.robustness_checks import run_placebo_test
   - Alternative event window specifications (±1 to ±7 days)
 - Publication-ready figure generation (300 DPI)
 
+## Citation
+
+If you use this code in your research, please cite:
+
+```bibtex
+@software{farzulla2025crypto_code,
+  author = {Farzulla, Murad},
+  title = {TARCH-X Implementation for Cryptocurrency Event Study Analysis},
+  year = {2025},
+  month = {November},
+  publisher = {Zenodo},
+  version = {v1.0.0},
+  doi = {10.5281/zenodo.17594536},
+  url = {https://doi.org/10.5281/zenodo.17594536}
+}
+```
+
+For the research paper using this code, cite:
+
+```bibtex
+@techreport{farzulla2025infrastructure,
+  author = {Farzulla, Murad},
+  title = {Code Failures, Market Panic: Why Infrastructure Events Hit Crypto Harder Than Regulations},
+  subtitle = {A TARCH-X Analysis of Differential Volatility Responses},
+  year = {2025},
+  month = {November},
+  type = {Working Paper},
+  doi = {10.5281/zenodo.17449736},
+  url = {https://doi.org/10.5281/zenodo.17449736}
+}
+```
+
 ## License
 
-CC-BY-4.0 - See LICENSE.txt in repository root
+MIT License - See `LICENSE` file in this directory
+
+The research paper is licensed under CC BY 4.0 (see root `LICENSE` file).
