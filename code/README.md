@@ -1,6 +1,6 @@
 # TARCH-X Implementation Code
 
-[![DOI](https://zenodo.org/badge/1083765416.svg)](https://doi.org/10.5281/zenodo.17594536)
+[![Code DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17595251.svg)](https://doi.org/10.5281/zenodo.17595251)
 
 Custom Python implementation of TARCH-X models for cryptocurrency event study analysis.
 
@@ -59,9 +59,9 @@ If you use this code in your research, please cite:
   year = {2025},
   month = {November},
   publisher = {Zenodo},
-  version = {v1.0.0},
-  doi = {10.5281/zenodo.17594536},
-  url = {https://doi.org/10.5281/zenodo.17594536}
+  version = {v1.0.1},
+  doi = {10.5281/zenodo.17595251},
+  url = {https://doi.org/10.5281/zenodo.17595251}
 }
 ```
 
@@ -75,8 +75,8 @@ For the research paper using this code, cite:
   year = {2025},
   month = {November},
   type = {Working Paper},
-  doi = {10.5281/zenodo.17449736},
-  url = {https://doi.org/10.5281/zenodo.17449736}
+  doi = {10.5281/zenodo.17595207},
+  url = {https://doi.org/10.5281/zenodo.17595207}
 }
 ```
 

@@ -3,8 +3,9 @@
 **Author:** Murad Farzulla
 **Date:** November 2025
 **Status:** Working Paper
-**Paper DOI:** [10.5281/zenodo.17449736](https://doi.org/10.5281/zenodo.17449736)
-**Code DOI:** [![DOI](https://zenodo.org/badge/1083765416.svg)](https://doi.org/10.5281/zenodo.17594536)
+
+[![Paper DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17595207.svg)](https://doi.org/10.5281/zenodo.17595207)
+[![Code DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17595251.svg)](https://doi.org/10.5281/zenodo.17595251)
 **Interactive Dashboard:** [farzulla.org/research/crypto-event-study](https://farzulla.org/research/crypto-event-study/)
 
 ## Abstract
@@ -95,8 +96,8 @@ All data, code, and results included for complete reproducibility.
   year = {2025},
   month = {November},
   type = {Working Paper},
-  doi = {10.5281/zenodo.17449736},
-  url = {https://doi.org/10.5281/zenodo.17449736}
+  doi = {10.5281/zenodo.17595207},
+  url = {https://doi.org/10.5281/zenodo.17595207}
 }
 ```
 
