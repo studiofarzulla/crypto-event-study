@@ -109,9 +109,12 @@ def run_diagnostic():
     print("  Pilot study: python code/run_paper2_analysis.py --pilot")
 
 
-def run_pilot_study():
+def run_pilot_study(with_robustness: bool = False):
     """
     Run pilot study on 5 major events.
+
+    Args:
+        with_robustness: If True, run full robustness check suite
     """
     print_header("PAPER 2 PILOT STUDY")
 
@@ -120,6 +123,7 @@ def run_pilot_study():
     print(f"  Crypto assets: {config.CRYPTO_ASSETS}")
     print(f"  Traditional assets: {config.TRADITIONAL_ASSETS}")
     print(f"  Event window: ±{config.EVENT_WINDOW_PRE} days")
+    print(f"  Robustness checks: {'YES' if with_robustness else 'NO'}")
 
     print("\nPilot Events:")
     for i, event in enumerate(config.PILOT_EVENTS, 1):
@@ -150,6 +154,24 @@ def run_pilot_study():
     viz.plot_microstructure_comparison(results_df,
                                       save_name='pilot_microstructure_comparison')
 
+    # Run robustness checks if requested
+    if with_robustness:
+        print_header("PHASE 3: ROBUSTNESS CHECKS")
+
+        from robustness_paper2 import run_complete_robustness_suite
+
+        print("Running comprehensive robustness check suite...")
+        print("This will take approximately 15-30 minutes.\n")
+
+        robustness_results = run_complete_robustness_suite(
+            events=config.PILOT_EVENTS,
+            results_df=results_df,
+            save_dir=config.OUTPUTS_DIR
+        )
+
+        print("\n[SUCCESS] Robustness checks complete")
+        print(f"Results saved to: {config.OUTPUTS_DIR}")
+
     # Summary
     print_header("PILOT STUDY COMPLETE")
 
@@ -166,6 +188,14 @@ def run_pilot_study():
     print("\nOutputs:")
     print(f"  - Results: {results_path}")
     print(f"  - Figures: {config.OUTPUTS_DIR / 'figures'}")
+
+    if with_robustness:
+        print("\n  Robustness Check Outputs:")
+        print(f"    - robustness_windows_summary.csv")
+        print(f"    - robustness_bootstrap_ci.csv")
+        print(f"    - robustness_placebo_tests.csv")
+        print(f"    - robustness_heterogeneity.csv")
+        print(f"    - robustness_summary_report.txt")
 
 
 def run_full_analysis():
@@ -217,6 +247,8 @@ def main():
                        help='Run quick diagnostic check')
     parser.add_argument('--pilot', action='store_true',
                        help='Run pilot study (5 events)')
+    parser.add_argument('--robustness', action='store_true',
+                       help='Include comprehensive robustness checks')
     parser.add_argument('--full', action='store_true',
                        help='Run full analysis (all events)')
 
@@ -231,16 +263,22 @@ def main():
     if args.diagnostic:
         run_diagnostic()
     elif args.pilot:
-        run_pilot_study()
+        run_pilot_study(with_robustness=args.robustness)
     elif args.full:
         run_full_analysis()
     else:
         # Default: show help
         print("\nUsage:")
-        print("  Quick check:  python code/run_paper2_analysis.py --diagnostic")
-        print("  Pilot study:  python code/run_paper2_analysis.py --pilot")
-        print("  Full analysis: python code/run_paper2_analysis.py --full")
+        print("  Quick check:        python code/run_paper2_analysis.py --diagnostic")
+        print("  Pilot study:        python code/run_paper2_analysis.py --pilot")
+        print("  With robustness:    python code/run_paper2_analysis.py --pilot --robustness")
+        print("  Full analysis:      python code/run_paper2_analysis.py --full")
         print("\nStart with --diagnostic to verify data access")
+        print("\nRobustness checks include:")
+        print("  - Alternative event windows (±7, ±14, ±60 days)")
+        print("  - Bootstrap confidence intervals (1000 iterations)")
+        print("  - Placebo tests (20 random dates)")
+        print("  - Cross-sectional heterogeneity (6 cryptocurrencies)")
 
 
 if __name__ == "__main__":

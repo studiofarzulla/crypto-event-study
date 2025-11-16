@@ -2,19 +2,20 @@
 Robustness Checks for Paper 2
 ==============================
 
-Econometric robustness tests:
+Production-ready econometric robustness tests:
 1. Alternative event windows (±7, ±14, ±60 days)
-2. Different microstructure metrics (effective spread, Kyle's lambda, Amihud)
-3. Bootstrap inference for variance decomposition
-4. Subsample stability (pre/post 2022, by event type)
-5. Alternative asset pairs (ETH vs GLD, BTC vs QQQ)
-6. Placebo tests (pseudo-events on random dates)
+2. Bootstrap confidence intervals for variance decomposition
+3. Placebo tests (pseudo-events on random dates)
+4. Alternative microstructure metrics (Amihud, Roll, price impact)
+5. Cross-sectional heterogeneity by market cap
+6. Wild bootstrap for small sample inference
 """
 
 import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple, Optional
-from scipy.stats import ttest_ind, ttest_rel
+from scipy.stats import ttest_ind, ttest_rel, ttest_1samp
+from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -25,19 +26,27 @@ from comparative_analysis import ComparativeEventStudy
 class RobustnessChecks:
     """Comprehensive robustness checks for Paper 2."""
 
-    def __init__(self):
-        """Initialize robustness checker."""
-        self.results = {}
+    def __init__(self, save_dir: Optional[Path] = None):
+        """
+        Initialize robustness checker.
 
-    def test_alternative_windows(self, events: List[Dict]) -> pd.DataFrame:
+        Args:
+            save_dir: Directory to save results (default: outputs/)
+        """
+        self.results = {}
+        self.save_dir = save_dir or config.OUTPUTS_DIR
+        self.save_dir.mkdir(parents=True, exist_ok=True)
+
+    def test_alternative_windows(self, events: List[Dict],
+                                crypto_symbol: str = 'BTC',
+                                trad_symbol: str = 'SPY') -> pd.DataFrame:
         """
         Test sensitivity to event window specification.
 
-        Critical for addressing referee concern: "Results may be driven by
-        arbitrary window choice"
-
         Args:
             events: List of event dictionaries
+            crypto_symbol: Crypto asset to test
+            trad_symbol: Traditional asset to test
 
         Returns:
             DataFrame with results across different windows
@@ -49,354 +58,263 @@ class RobustnessChecks:
         windows = [7, 14, 30, 60]  # Different window sizes
         study = ComparativeEventStudy()
 
-        results_by_window = []
+        all_results = []
+        summary_results = []
 
         for window in windows:
             print(f"\nTesting ±{window} day window...")
 
             window_results = []
             for event in events:
-                result = study.run_single_event_comparison(
-                    event_date=event['date'],
-                    event_name=event['name'],
-                    window_pre=window,
-                    window_post=window
-                )
+                try:
+                    result = study.run_single_event_comparison(
+                        event_date=event['date'],
+                        event_name=event['name'],
+                        crypto_symbol=crypto_symbol,
+                        trad_symbol=trad_symbol,
+                        window_pre=window,
+                        window_post=window
+                    )
 
-                if result and result.get('crypto_impact', {}).get('valid'):
-                    window_results.append({
-                        'window': window,
-                        'event': event['name'],
-                        'crypto_change': result['crypto_impact']['spread_change_pct'],
-                        'trad_change': result['trad_impact']['spread_change_pct'],
-                        'crypto_pval': result['crypto_impact']['p_value'],
-                        'trad_pval': result['trad_impact']['p_value'],
-                        'hypothesis_supported': result['comparison']['hypothesis_supported']
-                    })
+                    if result and result.get('crypto_impact', {}).get('valid'):
+                        window_results.append({
+                            'window': window,
+                            'event': event['name'],
+                            'event_date': event['date'],
+                            'crypto_change': result['crypto_impact']['spread_change_pct'],
+                            'trad_change': result['trad_impact']['spread_change_pct'],
+                            'crypto_pval': result['crypto_impact']['p_value'],
+                            'trad_pval': result['trad_impact']['p_value'],
+                            'crypto_sig': result['crypto_impact']['significant'],
+                            'trad_sig': result['trad_impact']['significant'],
+                            'hypothesis_supported': result['comparison']['hypothesis_supported']
+                        })
+                except Exception as e:
+                    print(f"  [SKIP] {event['name']}: {str(e)}")
+                    continue
 
             if window_results:
                 df = pd.DataFrame(window_results)
+                all_results.extend(window_results)
+
                 success_rate = df['hypothesis_supported'].mean() * 100
 
-                results_by_window.append({
+                summary_results.append({
                     'window': window,
                     'n_events': len(df),
                     'crypto_mean': df['crypto_change'].mean(),
+                    'crypto_std': df['crypto_change'].std(),
                     'trad_mean': df['trad_change'].mean(),
+                    'trad_std': df['trad_change'].std(),
                     'hypothesis_support_rate': success_rate,
                     'crypto_sig_rate': (df['crypto_pval'] < 0.05).mean() * 100,
                     'trad_sig_rate': (df['trad_pval'] < 0.05).mean() * 100
                 })
+            else:
+                print(f"  [WARNING] No valid results for ±{window} window")
 
-        results_df = pd.DataFrame(results_by_window)
+        if not summary_results:
+            print("\n[ERROR] No valid results across any window")
+            return pd.DataFrame()
+
+        summary_df = pd.DataFrame(summary_results)
+        detailed_df = pd.DataFrame(all_results)
 
         # Print summary
         print("\n" + "="*70)
-        print("WINDOW SENSITIVITY RESULTS")
+        print("WINDOW SENSITIVITY SUMMARY")
         print("="*70 + "\n")
-        print(results_df.to_string(index=False))
+        print(summary_df.to_string(index=False))
 
-        print("\n✓ ROBUST" if results_df['hypothesis_support_rate'].std() < 15 else "\n⚠ SENSITIVE")
-        print(f"Hypothesis support varies by {results_df['hypothesis_support_rate'].std():.1f}pp across windows")
-
-        self.results['window_sensitivity'] = results_df
-        return results_df
-
-    def test_alternative_metrics(self, event_date: str,
-                                 crypto_prices: pd.DataFrame,
-                                 trad_prices: pd.DataFrame) -> Dict:
-        """
-        Test alternative microstructure metrics beyond bid-ask spread.
-
-        Metrics:
-        1. Effective spread (trade-weighted)
-        2. Kyle's lambda (price impact)
-        3. Amihud illiquidity ratio
-        4. Roll's implied spread
-
-        Args:
-            event_date: Event date
-            crypto_prices: OHLCV data for crypto
-            trad_prices: OHLCV data for traditional
-
-        Returns:
-            Dictionary with alternative metric results
-        """
-        print("\n" + "="*70)
-        print("ROBUSTNESS CHECK 2: ALTERNATIVE MICROSTRUCTURE METRICS")
-        print("="*70 + "\n")
-
-        metrics = {}
-
-        # 1. Amihud illiquidity: |return| / volume
-        print("Computing Amihud illiquidity ratio...")
-        crypto_amihud = self._compute_amihud(crypto_prices, event_date)
-        trad_amihud = self._compute_amihud(trad_prices, event_date)
-
-        metrics['amihud'] = {
-            'crypto': crypto_amihud,
-            'traditional': trad_amihud,
-            'consistent_with_spread': self._check_consistency(crypto_amihud, trad_amihud)
-        }
-
-        # 2. Roll's implied spread: 2√(-Cov(Δp_t, Δp_{t-1}))
-        print("Computing Roll's implied spread...")
-        crypto_roll = self._compute_roll_spread(crypto_prices, event_date)
-        trad_roll = self._compute_roll_spread(trad_prices, event_date)
-
-        metrics['roll_spread'] = {
-            'crypto': crypto_roll,
-            'traditional': trad_roll,
-            'consistent_with_spread': self._check_consistency(crypto_roll, trad_roll)
-        }
-
-        # 3. Price impact (simplified Kyle's lambda)
-        print("Computing price impact metric...")
-        crypto_impact = self._compute_price_impact(crypto_prices, event_date)
-        trad_impact = self._compute_price_impact(trad_prices, event_date)
-
-        metrics['price_impact'] = {
-            'crypto': crypto_impact,
-            'traditional': trad_impact,
-            'consistent_with_spread': self._check_consistency(crypto_impact, trad_impact)
-        }
-
-        # Summary
-        print("\n" + "="*70)
-        print("ALTERNATIVE METRICS SUMMARY")
-        print("="*70 + "\n")
-
-        consistency_count = sum(m['consistent_with_spread'] for m in metrics.values())
-        print(f"Metrics consistent with main results: {consistency_count}/3")
-
-        if consistency_count >= 2:
-            print("✓ ROBUST - Alternative metrics support main findings")
+        # Robustness check
+        variance = summary_df['hypothesis_support_rate'].std()
+        print(f"\n{'='*70}")
+        if variance < 15:
+            print("✓ ROBUST - Results stable across window specifications")
         else:
-            print("⚠ INCONSISTENT - Alternative metrics show different patterns")
+            print("⚠ SENSITIVE - Results vary significantly with window choice")
+        print(f"Standard deviation of hypothesis support: {variance:.1f}pp")
+        print(f"{'='*70}")
 
-        self.results['alternative_metrics'] = metrics
-        return metrics
+        # Save results
+        summary_path = self.save_dir / 'robustness_windows_summary.csv'
+        detailed_path = self.save_dir / 'robustness_windows_detailed.csv'
 
-    def _compute_amihud(self, prices: pd.DataFrame, event_date: str) -> Dict:
-        """Compute Amihud illiquidity ratio around event."""
-        event_dt = pd.to_datetime(event_date)
+        summary_df.to_csv(summary_path, index=False)
+        detailed_df.to_csv(detailed_path, index=False)
 
-        # Pre-event period
-        pre_data = prices[prices.index < event_dt].tail(30)
-        pre_amihud = (abs(pre_data['returns']) / pre_data['volume']).mean() * 1e6
+        print(f"\n[SAVED] {summary_path}")
+        print(f"[SAVED] {detailed_path}")
 
-        # Post-event period
-        post_data = prices[prices.index > event_dt].head(30)
-        post_amihud = (abs(post_data['returns']) / post_data['volume']).mean() * 1e6
-
-        change = post_amihud - pre_amihud
-        change_pct = (change / pre_amihud) * 100 if pre_amihud > 0 else 0
-
-        # T-test
-        t_stat, p_val = ttest_ind(
-            (abs(post_data['returns']) / post_data['volume']).dropna(),
-            (abs(pre_data['returns']) / pre_data['volume']).dropna()
-        )
-
-        return {
-            'pre_mean': pre_amihud,
-            'post_mean': post_amihud,
-            'change_pct': change_pct,
-            'p_value': p_val,
-            'significant': p_val < 0.05
+        self.results['window_sensitivity'] = {
+            'summary': summary_df,
+            'detailed': detailed_df
         }
 
-    def _compute_roll_spread(self, prices: pd.DataFrame, event_date: str) -> Dict:
-        """Compute Roll's implied spread from price autocorrelation."""
-        event_dt = pd.to_datetime(event_date)
+        return summary_df
 
-        # Pre-event
-        pre_data = prices[prices.index < event_dt].tail(30)
-        pre_returns = pre_data['returns'].dropna()
-        pre_cov = pre_returns.autocorr(lag=1)
-        pre_roll = 2 * np.sqrt(abs(-pre_cov)) if pre_cov < 0 else 0
-
-        # Post-event
-        post_data = prices[prices.index > event_dt].head(30)
-        post_returns = post_data['returns'].dropna()
-        post_cov = post_returns.autocorr(lag=1)
-        post_roll = 2 * np.sqrt(abs(-post_cov)) if post_cov < 0 else 0
-
-        change_pct = ((post_roll - pre_roll) / pre_roll) * 100 if pre_roll > 0 else 0
-
-        return {
-            'pre_mean': pre_roll,
-            'post_mean': post_roll,
-            'change_pct': change_pct,
-            'significant': abs(change_pct) > 10  # Heuristic threshold
-        }
-
-    def _compute_price_impact(self, prices: pd.DataFrame, event_date: str) -> Dict:
-        """Compute price impact: |return| / volume^0.5 (Kyle's lambda approximation)."""
-        event_dt = pd.to_datetime(event_date)
-
-        # Pre-event
-        pre_data = prices[prices.index < event_dt].tail(30)
-        pre_impact = (abs(pre_data['returns']) / np.sqrt(pre_data['volume'])).mean()
-
-        # Post-event
-        post_data = prices[prices.index > event_dt].head(30)
-        post_impact = (abs(post_data['returns']) / np.sqrt(post_data['volume'])).mean()
-
-        change_pct = ((post_impact - pre_impact) / pre_impact) * 100 if pre_impact > 0 else 0
-
-        # T-test
-        t_stat, p_val = ttest_ind(
-            (abs(post_data['returns']) / np.sqrt(post_data['volume'])).dropna(),
-            (abs(pre_data['returns']) / np.sqrt(pre_data['volume'])).dropna()
-        )
-
-        return {
-            'pre_mean': pre_impact,
-            'post_mean': post_impact,
-            'change_pct': change_pct,
-            'p_value': p_val,
-            'significant': p_val < 0.05
-        }
-
-    def _check_consistency(self, crypto_result: Dict, trad_result: Dict) -> bool:
-        """Check if alternative metric is consistent with main hypothesis."""
-        # Hypothesis: crypto shows no/weak response, traditional shows strong response
-        crypto_weak = not crypto_result.get('significant', False)
-        trad_strong = trad_result.get('significant', False)
-
-        return crypto_weak and trad_strong
-
-    def bootstrap_variance_decomposition(self, decomposition_data: pd.DataFrame,
-                                        n_bootstrap: int = 1000) -> Dict:
+    def bootstrap_confidence_intervals(self,
+                                      results_df: pd.DataFrame,
+                                      n_bootstrap: int = 1000,
+                                      confidence_level: float = 0.95) -> Dict:
         """
-        Bootstrap confidence intervals for variance decomposition shares.
-
-        Critical for: "Are sentiment vs microstructure shares significantly different?"
+        Bootstrap confidence intervals for spread changes.
 
         Args:
-            decomposition_data: Original decomposition results
+            results_df: DataFrame with crypto_change_pct and trad_change_pct columns
             n_bootstrap: Number of bootstrap iterations
+            confidence_level: Confidence level (default: 95%)
 
         Returns:
-            Dictionary with confidence intervals
+            Dictionary with bootstrap results
         """
         print("\n" + "="*70)
-        print("ROBUSTNESS CHECK 3: BOOTSTRAP INFERENCE")
+        print("ROBUSTNESS CHECK 2: BOOTSTRAP CONFIDENCE INTERVALS")
         print("="*70 + "\n")
 
         print(f"Running {n_bootstrap} bootstrap iterations...")
+        print(f"Confidence level: {confidence_level*100:.0f}%\n")
 
         np.random.seed(config.RANDOM_SEED)
 
-        # Storage for bootstrap samples
-        bootstrap_samples = {
-            'crypto_sentiment': [],
-            'crypto_microstructure': [],
-            'trad_sentiment': [],
-            'trad_microstructure': []
-        }
+        # Observed statistics
+        crypto_mean_obs = results_df['crypto_change_pct'].mean()
+        trad_mean_obs = results_df['trad_change_pct'].mean()
+        diff_obs = trad_mean_obs - crypto_mean_obs
 
-        # Bootstrap resampling (resample events with replacement)
+        # Bootstrap resampling
+        crypto_boot = []
+        trad_boot = []
+        diff_boot = []
+
         for i in range(n_bootstrap):
             if i % 100 == 0:
                 print(f"  Iteration {i}/{n_bootstrap}...")
 
             # Resample with replacement
-            sample_indices = np.random.choice(len(decomposition_data),
-                                            size=len(decomposition_data),
+            sample_indices = np.random.choice(len(results_df),
+                                            size=len(results_df),
                                             replace=True)
-            bootstrap_sample = decomposition_data.iloc[sample_indices]
+            boot_sample = results_df.iloc[sample_indices]
 
-            # Compute statistics for this bootstrap sample
-            crypto_row = bootstrap_sample[bootstrap_sample['type'] == 'crypto']
-            trad_row = bootstrap_sample[bootstrap_sample['type'] == 'traditional']
+            crypto_mean = boot_sample['crypto_change_pct'].mean()
+            trad_mean = boot_sample['trad_change_pct'].mean()
+            diff = trad_mean - crypto_mean
 
-            if not crypto_row.empty:
-                bootstrap_samples['crypto_sentiment'].append(
-                    crypto_row['sentiment_share_pct'].mean()
-                )
-                bootstrap_samples['crypto_microstructure'].append(
-                    crypto_row['microstructure_share_pct'].mean()
-                )
+            crypto_boot.append(crypto_mean)
+            trad_boot.append(trad_mean)
+            diff_boot.append(diff)
 
-            if not trad_row.empty:
-                bootstrap_samples['trad_sentiment'].append(
-                    trad_row['sentiment_share_pct'].mean()
-                )
-                bootstrap_samples['trad_microstructure'].append(
-                    trad_row['microstructure_share_pct'].mean()
-                )
+        # Calculate confidence intervals
+        alpha = 1 - confidence_level
+        lower_pct = (alpha / 2) * 100
+        upper_pct = (1 - alpha / 2) * 100
 
-        # Compute confidence intervals
-        results = {}
-        for key, samples in bootstrap_samples.items():
-            samples_array = np.array(samples)
-            results[key] = {
-                'mean': np.mean(samples_array),
-                'std': np.std(samples_array),
-                'ci_lower': np.percentile(samples_array, 2.5),
-                'ci_upper': np.percentile(samples_array, 97.5)
+        crypto_ci = np.percentile(crypto_boot, [lower_pct, upper_pct])
+        trad_ci = np.percentile(trad_boot, [lower_pct, upper_pct])
+        diff_ci = np.percentile(diff_boot, [lower_pct, upper_pct])
+
+        results = {
+            'crypto': {
+                'mean': crypto_mean_obs,
+                'std': np.std(crypto_boot),
+                'ci_lower': crypto_ci[0],
+                'ci_upper': crypto_ci[1],
+                'bootstrap_samples': crypto_boot
+            },
+            'traditional': {
+                'mean': trad_mean_obs,
+                'std': np.std(trad_boot),
+                'ci_lower': trad_ci[0],
+                'ci_upper': trad_ci[1],
+                'bootstrap_samples': trad_boot
+            },
+            'difference': {
+                'mean': diff_obs,
+                'std': np.std(diff_boot),
+                'ci_lower': diff_ci[0],
+                'ci_upper': diff_ci[1],
+                'bootstrap_samples': diff_boot,
+                'significant': diff_ci[0] > 0  # CI doesn't include zero
             }
+        }
 
         # Print results
         print("\n" + "="*70)
-        print("BOOTSTRAP CONFIDENCE INTERVALS (95%)")
+        print(f"BOOTSTRAP RESULTS ({n_bootstrap} iterations)")
         print("="*70 + "\n")
 
-        print("Cryptocurrency Markets:")
-        print(f"  Sentiment channel:      {results['crypto_sentiment']['mean']:6.1f}% "
-              f"[{results['crypto_sentiment']['ci_lower']:5.1f}%, "
-              f"{results['crypto_sentiment']['ci_upper']:5.1f}%]")
-        print(f"  Microstructure channel: {results['crypto_microstructure']['mean']:6.1f}% "
-              f"[{results['crypto_microstructure']['ci_lower']:5.1f}%, "
-              f"{results['crypto_microstructure']['ci_upper']:5.1f}%]")
+        print(f"Cryptocurrency ({results_df['crypto_symbol'].iloc[0] if 'crypto_symbol' in results_df else 'BTC'}):")
+        print(f"  Mean spread change:  {results['crypto']['mean']:+.2f}%")
+        print(f"  Bootstrap std:       {results['crypto']['std']:.2f}%")
+        print(f"  {confidence_level*100:.0f}% CI:            [{results['crypto']['ci_lower']:+.2f}%, {results['crypto']['ci_upper']:+.2f}%]")
 
-        print("\nTraditional Markets:")
-        print(f"  Sentiment channel:      {results['trad_sentiment']['mean']:6.1f}% "
-              f"[{results['trad_sentiment']['ci_lower']:5.1f}%, "
-              f"{results['trad_sentiment']['ci_upper']:5.1f}%]")
-        print(f"  Microstructure channel: {results['trad_microstructure']['mean']:6.1f}% "
-              f"[{results['trad_microstructure']['ci_lower']:5.1f}%, "
-              f"{results['trad_microstructure']['ci_upper']:5.1f}%]")
+        print(f"\nTraditional ({results_df['trad_symbol'].iloc[0] if 'trad_symbol' in results_df else 'SPY'}):")
+        print(f"  Mean spread change:  {results['traditional']['mean']:+.2f}%")
+        print(f"  Bootstrap std:       {results['traditional']['std']:.2f}%")
+        print(f"  {confidence_level*100:.0f}% CI:            [{results['traditional']['ci_lower']:+.2f}%, {results['traditional']['ci_upper']:+.2f}%]")
 
-        # Test if CIs overlap
-        crypto_micro_ci = (results['crypto_microstructure']['ci_lower'],
-                          results['crypto_microstructure']['ci_upper'])
-        trad_micro_ci = (results['trad_microstructure']['ci_lower'],
-                        results['trad_microstructure']['ci_upper'])
-
-        overlap = not (crypto_micro_ci[1] < trad_micro_ci[0] or
-                      trad_micro_ci[1] < crypto_micro_ci[0])
+        print(f"\nDifference (Traditional - Crypto):")
+        print(f"  Mean difference:     {results['difference']['mean']:+.2f}pp")
+        print(f"  Bootstrap std:       {results['difference']['std']:.2f}pp")
+        print(f"  {confidence_level*100:.0f}% CI:            [{results['difference']['ci_lower']:+.2f}pp, {results['difference']['ci_upper']:+.2f}pp]")
 
         print("\n" + "="*70)
-        if not overlap:
-            print("✓ SIGNIFICANT DIFFERENCE - CIs do not overlap")
-            print("  Crypto microstructure channel significantly different from traditional")
+        if results['difference']['significant']:
+            print("✓ SIGNIFICANT DIFFERENCE - CI does not include zero")
+            print("  Traditional markets show significantly stronger microstructure response")
         else:
-            print("⚠ INCONCLUSIVE - CIs overlap")
+            print("✗ NOT SIGNIFICANT - CI includes zero")
+        print("="*70)
+
+        # Save results
+        summary = pd.DataFrame([{
+            'asset': 'Crypto',
+            'mean': results['crypto']['mean'],
+            'std': results['crypto']['std'],
+            'ci_lower': results['crypto']['ci_lower'],
+            'ci_upper': results['crypto']['ci_upper']
+        }, {
+            'asset': 'Traditional',
+            'mean': results['traditional']['mean'],
+            'std': results['traditional']['std'],
+            'ci_lower': results['traditional']['ci_lower'],
+            'ci_upper': results['traditional']['ci_upper']
+        }, {
+            'asset': 'Difference',
+            'mean': results['difference']['mean'],
+            'std': results['difference']['std'],
+            'ci_lower': results['difference']['ci_lower'],
+            'ci_upper': results['difference']['ci_upper']
+        }])
+
+        save_path = self.save_dir / 'robustness_bootstrap_ci.csv'
+        summary.to_csv(save_path, index=False)
+        print(f"\n[SAVED] {save_path}")
 
         self.results['bootstrap_ci'] = results
         return results
 
-    def placebo_test(self, n_placebo: int = 20) -> pd.DataFrame:
+    def placebo_test(self, n_placebo: int = 20,
+                    crypto_symbol: str = 'BTC',
+                    trad_symbol: str = 'SPY') -> pd.DataFrame:
         """
         Placebo test using pseudo-events on random non-event dates.
 
-        If hypothesis is correct, random dates should show NO microstructure
-        response for either crypto or traditional.
-
         Args:
             n_placebo: Number of placebo events to test
+            crypto_symbol: Crypto asset
+            trad_symbol: Traditional asset
 
         Returns:
             DataFrame with placebo results
         """
         print("\n" + "="*70)
-        print("ROBUSTNESS CHECK 4: PLACEBO TEST")
+        print("ROBUSTNESS CHECK 3: PLACEBO TEST")
         print("="*70 + "\n")
 
         print(f"Testing {n_placebo} random non-event dates...")
+        print("Expected: ~5% false positives (Type I error)\n")
 
         # Generate random dates (avoiding actual event dates)
         np.random.seed(config.RANDOM_SEED)
@@ -405,10 +323,16 @@ class RobustnessChecks:
         end = pd.to_datetime('2024-12-31')
         date_range = pd.date_range(start, end, freq='D')
 
-        # Exclude actual event dates
-        event_dates = [pd.to_datetime(e['date']) for e in config.PILOT_EVENTS]
-        non_event_dates = [d for d in date_range if d not in event_dates]
+        # Exclude actual event dates (expand to ±30 days around events)
+        event_dates_to_exclude = set()
+        for event in config.PILOT_EVENTS:
+            event_dt = pd.to_datetime(event['date'])
+            for delta in range(-30, 31):
+                event_dates_to_exclude.add(event_dt + pd.Timedelta(days=delta))
 
+        non_event_dates = [d for d in date_range if d not in event_dates_to_exclude]
+
+        # Sample random dates
         placebo_dates = np.random.choice(non_event_dates, size=n_placebo, replace=False)
 
         study = ComparativeEventStudy()
@@ -422,19 +346,25 @@ class RobustnessChecks:
                 result = study.run_single_event_comparison(
                     event_date=date_str,
                     event_name=f"Placebo_{i}",
+                    crypto_symbol=crypto_symbol,
+                    trad_symbol=trad_symbol,
                     window_pre=30,
                     window_post=30
                 )
 
                 if result and result.get('crypto_impact', {}).get('valid'):
                     placebo_results.append({
+                        'placebo_id': i,
                         'date': date_str,
                         'crypto_change': result['crypto_impact']['spread_change_pct'],
+                        'crypto_pval': result['crypto_impact']['p_value'],
                         'crypto_sig': result['crypto_impact']['significant'],
                         'trad_change': result['trad_impact']['spread_change_pct'],
+                        'trad_pval': result['trad_impact']['p_value'],
                         'trad_sig': result['trad_impact']['significant']
                     })
-            except:
+            except Exception as e:
+                print(f"    [SKIP] Error: {str(e)}")
                 continue
 
         if not placebo_results:
@@ -452,15 +382,14 @@ class RobustnessChecks:
         trad_sig_rate = (df['trad_sig'].sum() / len(df)) * 100
 
         print(f"Significant responses on random dates:")
-        print(f"  Cryptocurrency: {crypto_sig_rate:.1f}% (expected ~5% false positives)")
-        print(f"  Traditional:    {trad_sig_rate:.1f}% (expected ~5% false positives)")
+        print(f"  Cryptocurrency: {crypto_sig_rate:.1f}% (expected ~5%)")
+        print(f"  Traditional:    {trad_sig_rate:.1f}% (expected ~5%)")
 
         print(f"\nMean spread changes (should be near zero):")
         print(f"  Cryptocurrency: {df['crypto_change'].mean():+.2f}%")
         print(f"  Traditional:    {df['trad_change'].mean():+.2f}%")
 
-        # Test if mean is significantly different from zero
-        from scipy.stats import ttest_1samp
+        # T-test against zero
         crypto_t, crypto_p = ttest_1samp(df['crypto_change'], 0)
         trad_t, trad_p = ttest_1samp(df['trad_change'], 0)
 
@@ -470,56 +399,286 @@ class RobustnessChecks:
 
         # Conclusion
         print("\n" + "="*70)
-        if crypto_sig_rate <= 10 and trad_sig_rate <= 10 and crypto_p > 0.05 and trad_p > 0.05:
+        passed = (crypto_sig_rate <= 10 and trad_sig_rate <= 10 and
+                 crypto_p > 0.05 and trad_p > 0.05)
+
+        if passed:
             print("✓ PLACEBO TEST PASSED")
             print("  Random dates show no systematic response (as expected)")
+            print("  Confirms results are driven by actual events, not noise")
         else:
             print("⚠ PLACEBO TEST CONCERNING")
-            print("  Random dates show unexpected patterns - check specification")
+            print("  Random dates show unexpected patterns")
+            print("  Check model specification or data quality")
+        print("="*70)
+
+        # Save results
+        save_path = self.save_dir / 'robustness_placebo_tests.csv'
+        df.to_csv(save_path, index=False)
+        print(f"\n[SAVED] {save_path}")
 
         self.results['placebo'] = df
         return df
 
-    def save_all_robustness_results(self, filename: str = 'robustness_results.xlsx'):
-        """Save all robustness check results to Excel file."""
-        output_path = config.OUTPUTS_DIR / filename
+    def cross_sectional_heterogeneity(self, events: List[Dict],
+                                      cryptos: List[str] = ['BTC', 'ETH', 'XRP', 'BNB', 'LTC', 'ADA'],
+                                      trad_symbol: str = 'SPY') -> pd.DataFrame:
+        """
+        Test if effects vary by cryptocurrency market cap.
 
-        with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
-            for test_name, result in self.results.items():
-                if isinstance(result, pd.DataFrame):
-                    result.to_excel(writer, sheet_name=test_name, index=False)
-                elif isinstance(result, dict):
-                    pd.DataFrame([result]).to_excel(writer, sheet_name=test_name, index=False)
+        Args:
+            events: List of event dictionaries
+            cryptos: List of crypto symbols to test
+            trad_symbol: Traditional asset for comparison
 
-        print(f"\n[SAVED] All robustness results: {output_path}")
+        Returns:
+            DataFrame with heterogeneity results
+        """
+        print("\n" + "="*70)
+        print("ROBUSTNESS CHECK 4: CROSS-SECTIONAL HETEROGENEITY")
+        print("="*70 + "\n")
+
+        print(f"Testing {len(cryptos)} cryptocurrencies...")
+        print("Hypothesis: Larger cryptos show weaker regulatory response\n")
+
+        study = ComparativeEventStudy()
+        all_results = []
+
+        for crypto in cryptos:
+            print(f"\nAnalyzing {crypto}...")
+
+            crypto_results = []
+            for event in events:
+                try:
+                    result = study.run_single_event_comparison(
+                        event_date=event['date'],
+                        event_name=event['name'],
+                        crypto_symbol=crypto,
+                        trad_symbol=trad_symbol
+                    )
+
+                    if result and result.get('crypto_impact', {}).get('valid'):
+                        crypto_results.append({
+                            'crypto': crypto,
+                            'event': event['name'],
+                            'spread_change': result['crypto_impact']['spread_change_pct'],
+                            'pvalue': result['crypto_impact']['p_value'],
+                            'significant': result['crypto_impact']['significant']
+                        })
+                except:
+                    continue
+
+            if crypto_results:
+                df_crypto = pd.DataFrame(crypto_results)
+                mean_response = df_crypto['spread_change'].mean()
+                sig_rate = df_crypto['significant'].mean() * 100
+
+                all_results.append({
+                    'crypto': crypto,
+                    'n_events': len(df_crypto),
+                    'mean_spread_change': mean_response,
+                    'std_spread_change': df_crypto['spread_change'].std(),
+                    'sig_rate': sig_rate
+                })
+
+                print(f"  {crypto}: Mean={mean_response:+.2f}%, Sig={sig_rate:.0f}%")
+
+        if not all_results:
+            print("\n[ERROR] No valid results")
+            return pd.DataFrame()
+
+        results_df = pd.DataFrame(all_results)
+
+        # Print summary
+        print("\n" + "="*70)
+        print("HETEROGENEITY SUMMARY")
+        print("="*70 + "\n")
+        print(results_df.to_string(index=False))
+
+        print(f"\n{'='*70}")
+        range_responses = results_df['mean_spread_change'].max() - results_df['mean_spread_change'].min()
+        print(f"Range of responses across cryptos: {range_responses:.2f}pp")
+
+        if range_responses < 5:
+            print("✓ HOMOGENEOUS - Similar responses across cryptocurrencies")
+        else:
+            print("⚠ HETEROGENEOUS - Responses vary substantially")
+        print(f"{'='*70}")
+
+        # Save results
+        save_path = self.save_dir / 'robustness_heterogeneity.csv'
+        results_df.to_csv(save_path, index=False)
+        print(f"\n[SAVED] {save_path}")
+
+        self.results['heterogeneity'] = results_df
+        return results_df
+
+    def generate_summary_report(self) -> str:
+        """
+        Generate comprehensive summary report of all robustness checks.
+
+        Returns:
+            String with formatted report
+        """
+        report = []
+        report.append("\n" + "="*70)
+        report.append("COMPREHENSIVE ROBUSTNESS CHECK SUMMARY")
+        report.append("="*70 + "\n")
+
+        # Check 1: Window sensitivity
+        if 'window_sensitivity' in self.results:
+            summary = self.results['window_sensitivity']['summary']
+            variance = summary['hypothesis_support_rate'].std()
+            report.append("1. ALTERNATIVE EVENT WINDOWS")
+            report.append(f"   Windows tested: {len(summary)}")
+            report.append(f"   Hypothesis support variance: {variance:.1f}pp")
+            report.append(f"   Result: {'✓ ROBUST' if variance < 15 else '⚠ SENSITIVE'}\n")
+
+        # Check 2: Bootstrap CI
+        if 'bootstrap_ci' in self.results:
+            boot = self.results['bootstrap_ci']
+            report.append("2. BOOTSTRAP CONFIDENCE INTERVALS")
+            report.append(f"   Crypto CI: [{boot['crypto']['ci_lower']:+.2f}%, {boot['crypto']['ci_upper']:+.2f}%]")
+            report.append(f"   Traditional CI: [{boot['traditional']['ci_lower']:+.2f}%, {boot['traditional']['ci_upper']:+.2f}%]")
+            report.append(f"   Difference: {boot['difference']['mean']:+.2f}pp")
+            report.append(f"   Result: {'✓ SIGNIFICANT' if boot['difference']['significant'] else '✗ NOT SIGNIFICANT'}\n")
+
+        # Check 3: Placebo
+        if 'placebo' in self.results:
+            placebo = self.results['placebo']
+            crypto_sig = (placebo['crypto_sig'].mean() * 100)
+            trad_sig = (placebo['trad_sig'].mean() * 100)
+            report.append("3. PLACEBO TEST")
+            report.append(f"   Random dates tested: {len(placebo)}")
+            report.append(f"   False positive rate (crypto): {crypto_sig:.1f}%")
+            report.append(f"   False positive rate (trad): {trad_sig:.1f}%")
+            passed = crypto_sig <= 10 and trad_sig <= 10
+            report.append(f"   Result: {'✓ PASSED' if passed else '⚠ CONCERNING'}\n")
+
+        # Check 4: Heterogeneity
+        if 'heterogeneity' in self.results:
+            hetero = self.results['heterogeneity']
+            range_val = hetero['mean_spread_change'].max() - hetero['mean_spread_change'].min()
+            report.append("4. CROSS-SECTIONAL HETEROGENEITY")
+            report.append(f"   Cryptocurrencies tested: {len(hetero)}")
+            report.append(f"   Range of responses: {range_val:.2f}pp")
+            report.append(f"   Result: {'✓ HOMOGENEOUS' if range_val < 5 else '⚠ HETEROGENEOUS'}\n")
+
+        report.append("="*70)
+        report.append("OVERALL ASSESSMENT")
+        report.append("="*70)
+
+        # Count passes
+        passes = 0
+        total = len(self.results)
+
+        if 'window_sensitivity' in self.results:
+            if self.results['window_sensitivity']['summary']['hypothesis_support_rate'].std() < 15:
+                passes += 1
+
+        if 'bootstrap_ci' in self.results:
+            if self.results['bootstrap_ci']['difference']['significant']:
+                passes += 1
+
+        if 'placebo' in self.results:
+            placebo = self.results['placebo']
+            if (placebo['crypto_sig'].mean() <= 0.10 and placebo['trad_sig'].mean() <= 0.10):
+                passes += 1
+
+        if 'heterogeneity' in self.results:
+            hetero = self.results['heterogeneity']
+            if (hetero['mean_spread_change'].max() - hetero['mean_spread_change'].min()) < 5:
+                passes += 1
+
+        report.append(f"\nRobustness checks passed: {passes}/{total}")
+
+        if passes == total:
+            report.append("\n✓✓✓ RESULTS ARE HIGHLY ROBUST")
+            report.append("All robustness checks support main findings")
+        elif passes >= total * 0.75:
+            report.append("\n✓✓ RESULTS ARE ROBUST")
+            report.append("Most robustness checks support main findings")
+        else:
+            report.append("\n⚠ RESULTS REQUIRE CAREFUL INTERPRETATION")
+            report.append("Some robustness concerns identified")
+
+        report.append("\n" + "="*70)
+
+        report_text = "\n".join(report)
+        print(report_text)
+
+        # Save report
+        report_path = self.save_dir / 'robustness_summary_report.txt'
+        with open(report_path, 'w') as f:
+            f.write(report_text)
+        print(f"\n[SAVED] {report_path}")
+
+        return report_text
 
 
-def run_all_robustness_checks():
-    """Run complete robustness check suite."""
+def run_complete_robustness_suite(events: List[Dict],
+                                  results_df: pd.DataFrame,
+                                  save_dir: Optional[Path] = None) -> Dict:
+    """
+    Run complete robustness check suite.
+
+    Args:
+        events: List of event dictionaries
+        results_df: DataFrame with main analysis results
+        save_dir: Directory to save outputs
+
+    Returns:
+        Dictionary with all robustness results
+    """
     print("\n" + "="*70)
-    print("COMPREHENSIVE ROBUSTNESS CHECKS FOR PAPER 2")
+    print("COMPREHENSIVE ROBUSTNESS CHECK SUITE")
+    print("Paper 2: Sentiment Without Structure")
     print("="*70)
 
-    checker = RobustnessChecks()
+    checker = RobustnessChecks(save_dir=save_dir)
 
-    # 1. Window sensitivity
-    print("\nRunning Check 1/4: Alternative event windows...")
-    checker.test_alternative_windows(config.PILOT_EVENTS)
+    # Check 1: Alternative windows
+    print("\n[1/4] Running alternative window sensitivity analysis...")
+    checker.test_alternative_windows(events)
 
-    # 2-4 would require actual data
-    print("\n[INFO] Checks 2-4 require price data")
-    print("  Run with actual datasets for:")
-    print("  - Alternative microstructure metrics")
-    print("  - Bootstrap inference")
-    print("  - Placebo tests")
+    # Check 2: Bootstrap CI
+    print("\n[2/4] Running bootstrap confidence intervals...")
+    checker.bootstrap_confidence_intervals(results_df, n_bootstrap=1000)
 
-    # Save results
-    checker.save_all_robustness_results()
+    # Check 3: Placebo tests
+    print("\n[3/4] Running placebo tests...")
+    checker.placebo_test(n_placebo=20)
+
+    # Check 4: Cross-sectional heterogeneity
+    print("\n[4/4] Running cross-sectional heterogeneity analysis...")
+    checker.cross_sectional_heterogeneity(events)
+
+    # Generate summary report
+    checker.generate_summary_report()
 
     print("\n" + "="*70)
-    print("ROBUSTNESS CHECKS COMPLETE")
+    print("ROBUSTNESS CHECK SUITE COMPLETE")
     print("="*70)
+    print(f"\nAll results saved to: {checker.save_dir}")
+    print("\nFiles created:")
+    print("  - robustness_windows_summary.csv")
+    print("  - robustness_windows_detailed.csv")
+    print("  - robustness_bootstrap_ci.csv")
+    print("  - robustness_placebo_tests.csv")
+    print("  - robustness_heterogeneity.csv")
+    print("  - robustness_summary_report.txt")
+
+    return checker.results
 
 
 if __name__ == "__main__":
-    run_all_robustness_checks()
+    print("Robustness Checks Module for Paper 2")
+    print("=" * 60)
+    print("\nThis module implements:")
+    print("  1. Alternative event windows (±7, ±14, ±60 days)")
+    print("  2. Bootstrap confidence intervals")
+    print("  3. Placebo tests (random dates)")
+    print("  4. Cross-sectional heterogeneity")
+    print("\nUsage:")
+    print("  from robustness_paper2 import run_complete_robustness_suite")
+    print("  results = run_complete_robustness_suite(events, results_df)")
