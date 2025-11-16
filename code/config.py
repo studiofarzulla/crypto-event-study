@@ -55,6 +55,53 @@ CRYPTOCURRENCIES = ['btc', 'eth', 'xrp', 'bnb', 'ltc', 'ada']
 START_DATE = os.getenv('ANALYSIS_START_DATE', '2019-01-01')
 END_DATE = os.getenv('ANALYSIS_END_DATE', '2025-08-31')
 
+# Paper 2 specific settings
+# Microstructure API keys
+BINANCE_API_KEY = os.getenv('BINANCE_API_KEY', '')
+BINANCE_API_SECRET = os.getenv('BINANCE_API_SECRET', '')
+
+# Paper 2: Assets for comparative analysis
+CRYPTO_ASSETS = ['BTC', 'ETH']  # Primary crypto assets for Paper 2
+TRADITIONAL_ASSETS = ['SPY', 'GLD']  # Comparison traditional assets
+
+# Paper 2: Event window for microstructure analysis
+EVENT_WINDOW_PRE = int(os.getenv('MICRO_EVENT_WINDOW_PRE', '30'))
+EVENT_WINDOW_POST = int(os.getenv('MICRO_EVENT_WINDOW_POST', '30'))
+
+# Paper 2: Pilot events for initial validation
+PILOT_EVENTS = [
+    {
+        'date': '2024-01-10',
+        'name': 'BTC ETF Approval',
+        'type': 'Regulatory',
+        'description': 'SEC approves spot Bitcoin ETFs'
+    },
+    {
+        'date': '2023-06-05',
+        'name': 'SEC Binance/Coinbase Suits',
+        'type': 'Regulatory',
+        'description': 'SEC sues Binance and Coinbase on consecutive days'
+    },
+    {
+        'date': '2022-11-10',
+        'name': 'FTX Collapse',
+        'type': 'Infrastructure',
+        'description': 'FTX files for bankruptcy, $8B hole'
+    },
+    {
+        'date': '2022-05-09',
+        'name': 'Terra/UST Collapse',
+        'type': 'Infrastructure',
+        'description': 'UST stablecoin loses peg, $40B evaporates'
+    },
+    {
+        'date': '2021-09-24',
+        'name': 'China Crypto Ban',
+        'type': 'Regulatory',
+        'description': 'China declares all crypto transactions illegal'
+    }
+]
+
 # Logging configuration
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
 LOG_FILE = os.getenv('LOG_FILE', str(BASE_DIR / 'event_study.log'))

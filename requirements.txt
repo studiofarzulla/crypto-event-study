@@ -24,6 +24,10 @@ pytz==2025.2
 requests==2.32.5
 urllib3==2.5.0
 
+# Paper 2: Microstructure data collection
+ccxt>=4.0.0  # Cryptocurrency exchange API
+yfinance>=0.2.0  # Traditional market data
+
 # Optional utilities
 colorama==0.4.6
 termcolor==3.1.0
