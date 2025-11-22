@@ -1,4 +1,6 @@
-# Code Failures, Market Panic: Why Infrastructure Events Hit Crypto Harder Than Regulations
+# Market Reaction Asymmetry: Infrastructure Disruption Dominance Over Regulatory Uncertainty
+
+**Subtitle:** Event Study Evidence from Cryptocurrency Volatility
 
 **Author:** Murad Farzulla
 **Affiliation:** Farzulla Research
@@ -295,7 +297,8 @@ Infrastructure effects amplify **5× during crisis periods** (COVID-19 crash, FT
 ```bibtex
 @techreport{farzulla2025infrastructure,
   author = {Farzulla, Murad},
-  title = {Code Failures, Market Panic: Why Infrastructure Events Hit Crypto Harder Than Regulations},
+  title = {Market Reaction Asymmetry: Infrastructure Disruption Dominance Over Regulatory Uncertainty},
+  subtitle = {Event Study Evidence from Cryptocurrency Volatility},
   institution = {Farzulla Research},
   year = {2025},
   month = {November},
