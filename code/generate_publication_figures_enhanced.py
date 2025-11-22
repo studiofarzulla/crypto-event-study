@@ -1284,7 +1284,8 @@ class EnhancedPublicationFigureGenerator:
                   label=f'Observed ({observed:.3f})')
 
         percentile = (np.sum(placebo_dist < observed) / len(placebo_dist)) * 100
-        ax.text(0.95, 0.95, f'p < {(100-percentile)/100:.3f}',
+        p_value = max((100-percentile)/100, 0.001)  # Floor at 0.001 to avoid p < 0.000
+        ax.text(0.95, 0.95, f'p < {p_value:.3f}',
                transform=ax.transAxes, ha='right', va='top',
                fontsize=10, fontweight='bold',
                bbox=dict(boxstyle='round', facecolor='yellow', alpha=0.7))
