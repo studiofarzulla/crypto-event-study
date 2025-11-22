@@ -1,10 +1,13 @@
-2.0.1
+2.0.0
 
-Latest commit: 112466ed8a8a895faca83ae21213b486102b4855
-Commit message: Release v2.0.1: SSRN journal submission variant
+Repository version: 2.0.0 (code, data, analysis unchanged)
+Latest commit: 03c4164 (adds v2.0.1 paper variant)
 Date: November 22, 2025
 
-SSRN Abstract ID: 5788082
-GitHub: https://github.com/studiofarzulla/crypto-event-study/commit/112466e
+Papers available in this repository:
+- v2.0.0: Farzulla_2025_Cryptocurrency_Event_Study_v2.0.0.pdf (Zenodo: 10.5281/zenodo.17677682)
+- v2.0.1: Farzulla_2025_Cryptocurrency_Event_Study_v2.0.1.pdf (SSRN: 5788082)
 
-See VERSION_GUIDE.md for detailed version history and usage guidance.
+See VERSION_GUIDE.md for paper version differences.
+
+GitHub: https://github.com/studiofarzulla/crypto-event-study
