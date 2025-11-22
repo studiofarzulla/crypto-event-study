@@ -327,7 +327,8 @@ Features:
 
 All data, code, and documentation publicly available:
 - **GitHub:** [github.com/studiofarzulla/cryptocurrency-event-study](https://github.com/studiofarzulla/cryptocurrency-event-study)
-- **Zenodo:** [10.5281/zenodo.17677682](https://doi.org/10.5281/zenodo.17677682)
+- **Code Repository (Zenodo):** [10.5281/zenodo.17679537](https://doi.org/10.5281/zenodo.17679537)
+- **Paper (Zenodo):** [10.5281/zenodo.17677682](https://doi.org/10.5281/zenodo.17677682)
 - **Dashboard:** [farzulla.org/research/crypto-event-study/](https://farzulla.org/research/crypto-event-study/)
 
 **Data Sources:**
