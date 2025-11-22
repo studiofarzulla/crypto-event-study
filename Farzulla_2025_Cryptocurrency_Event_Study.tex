@@ -895,7 +895,7 @@ This perfect ranking stability demonstrates that cross-sectional heterogeneity r
 
 \subsection{Economic Significance and Practical Implications}
 
-The statistically significant infrastructure-regulatory differential ($p=0.0057$) translates to substantial economic magnitudes for portfolio risk management. Infrastructure events increase conditional volatility by 2.385 percentage points on average (ranging from 1.191\% for BTC to 3.371\% for ADA), representing 15--45\% increases relative to baseline. This translates to annualized volatility shifts from approximately 60\% baseline to 70--85\% during events, while regulatory events generate smaller increases (0.419 percentage points average, 3--8\% relative increases).
+The statistically significant infrastructure-regulatory differential ($p=0.0008$) translates to substantial economic magnitudes for portfolio risk management. Infrastructure events increase conditional volatility by 2.385 percentage points on average (ranging from 1.191\% for BTC to 3.371\% for ADA), representing 15--45\% increases relative to baseline. This translates to annualized volatility shifts from approximately 60\% baseline to 70--85\% during events, while regulatory events generate smaller increases (0.419 percentage points average, 3--8\% relative increases).
 
 For a \$100 million cryptocurrency portfolio, infrastructure events imply daily value-at-risk increases of \$2--5 million, compared to \$0.5--1 million for regulatory events -- economically meaningful risk requiring differentiated management strategies.
 
@@ -907,7 +907,7 @@ Cross-sectional patterns reveal interesting heterogeneity, with ADA and ETH show
 
 Our analysis provides strong evidence for differential information processing mechanisms in cryptocurrency markets, validating the theoretical framework of distinct volatility responses to infrastructure versus regulatory events.
 
-\textbf{Primary Finding (H1 - Supported):} Infrastructure events generate significantly larger volatility impacts than regulatory events (2.385\% vs 0.419\%, $p=0.0057$, Cohen's $d=2.88$). This 5.7$\times$ multiplier is robust across multiple statistical tests ($t$-test, Mann-Whitney U, inverse-variance weighted $Z$-test) and consistent across all 6 individual cryptocurrencies. The effect represents both statistical significance and economic meaningfulness, translating to 4--5$\times$ differences in required capital buffers for portfolio risk management.
+\textbf{Primary Finding (H1 - Supported):} Infrastructure events generate significantly larger volatility impacts than regulatory events (2.385\% vs 0.419\%, $p=0.0008$, Cohen's $d=2.753$). This 5.7$\times$ multiplier is robust across multiple statistical tests ($t$-test, Mann-Whitney U, inverse-variance weighted $Z$-test) and consistent across all 6 individual cryptocurrencies. The effect represents both statistical significance and economic meaningfulness, translating to 4--5$\times$ differences in required capital buffers for portfolio risk management.
 
 \textbf{Secondary Finding - Cross-Sectional Heterogeneity:} Substantial variation exists within infrastructure event responses, ranging from ADA (3.371\%) to BTC (1.191\%), a 2.18 percentage point spread. Only ETH infrastructure effect survives stringent FDR correction ($p=0.016$), though the conservative multiple testing adjustment across 50 events and 6 assets likely eliminates genuine effects. The cross-sectional heterogeneity operates within the larger infrastructure-regulatory asymmetry rather than dominating it.
 
@@ -925,7 +925,7 @@ Our analysis provides strong evidence for differential information processing me
 
 This study provides strong empirical evidence for differential information processing mechanisms in cryptocurrency markets through a comprehensive framework examining 50 major events across six cryptocurrencies from 2019--2025. By developing a unified TARCH-X analytical approach incorporating asymmetric volatility models with exogenous event and sentiment variables, we establish that infrastructure failures and regulatory announcements generate systematically different volatility signatures.
 
-\textbf{Primary Finding:} Infrastructure events produce significantly larger volatility impacts than regulatory events, with a mean difference of 1.97 percentage points (2.385\% vs 0.419\%) representing a 5.7$\times$ multiplier. This finding is statistically robust ($p=0.0057$, Cohen's $d=2.88$) across multiple hypothesis tests including independent $t$-test, Mann-Whitney U, and inverse-variance weighted $Z$-test ($p=0.0003$). The effect persists across all 6 individual cryptocurrencies and survives comprehensive robustness validation including placebo tests, alternative event windows, and temporal stability analysis.
+\textbf{Primary Finding:} Infrastructure events produce significantly larger volatility impacts than regulatory events, with a mean difference of 1.97 percentage points (2.385\% vs 0.419\%) representing a 5.7$\times$ multiplier. This finding is statistically robust ($p=0.0008$, Cohen's $d=2.753$) across multiple hypothesis tests including independent $t$-test, Mann-Whitney U, and inverse-variance weighted $Z$-test ($p=0.0003$). The effect persists across all 6 individual cryptocurrencies and survives comprehensive robustness validation including placebo tests, alternative event windows, and temporal stability analysis.
 
 The infrastructure-regulatory asymmetry aligns with theoretical predictions: infrastructure events (exchange outages, protocol exploits, network failures) create immediate mechanical disruptions to trading and settlement mechanisms, generating sharp volatility spikes through liquidity channel impacts. In contrast, regulatory events (enforcement actions, legislative proposals, policy announcements) operate through information channels requiring gradual interpretation and assessment of long-term compliance implications. The 5.7$\times$ empirical multiplier quantifies this mechanistic distinction, establishing that cryptocurrency markets exhibit sophisticated information processing capabilities despite their relative youth and retail-dominated participant structure.
 
@@ -1305,7 +1305,7 @@ The manual implementation provides full control over the optimisation process, t
 \toprule
 \textbf{Hypothesis} & \textbf{OLD Status} & \textbf{NEW Status} \\
 \midrule
-H1: Infra $>$ Reg & Rejected ($p=0.997$) & \textbf{Supported} ($p=0.0057$) \\
+H1: Infra $>$ Reg & Rejected ($p=0.997$) & \textbf{Supported} ($p=0.0008$) \\
 H2: Sentiment leading & Rejected & \textbf{Partial Support} \\
 H3: TARCH-X superiority & Mixed & \textbf{Supported} (83\% AIC) \\
 \bottomrule
