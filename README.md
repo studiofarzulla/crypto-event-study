@@ -9,6 +9,7 @@
 **SSRN:** [Abstract ID 5788082](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5788082)
 **Zenodo DOI (v2.0.0):** [10.5281/zenodo.17677682](https://doi.org/10.5281/zenodo.17677682)
 
+[![SSRN](https://img.shields.io/badge/SSRN-5788082-b31b1b?logo=ssrn&logoColor=white)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5788082)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17677682.svg)](https://doi.org/10.5281/zenodo.17677682)
 
 > **📌 Multiple Versions Available:** This repository contains v2.0.0 (Zenodo archival) and v2.0.1 (SSRN/journal submission). See [VERSION_GUIDE.md](VERSION_GUIDE.md) for details on which version to use.
