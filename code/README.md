@@ -15,6 +15,8 @@ Custom Python implementation of TARCH-X models for cryptocurrency event study an
 - **`data_preparation.py`** - Price data loading and preprocessing
 - **`event_impact_analysis.py`** - Event impact estimation and hypothesis testing
 - **`robustness_checks.py`** - Placebo tests, temporal stability, alternative windows
+- **`robustness_overlapping_events.py`** - Robustness check for overlapping event treatment
+- **`run_diagnostics.py`** - Model diagnostics (Ljung-Box, ARCH-LM, Jarque-Bera tests)
 - **`bootstrap_inference.py`** - Bootstrap standard errors and confidence intervals
 
 ### Utilities

@@ -734,12 +734,9 @@ class EventImpactAnalysis:
             reg_coef = model.event_effects.get('D_regulatory', 0)
 
             # Base persistence
+            # NOTE: Event coefficients affect volatility LEVEL (additive in variance equation)
+            # but do NOT affect persistence (AR dynamics determined solely by alpha, beta, gamma)
             base_persistence = alpha + beta + gamma/2
-
-            # Adjusted persistence during events
-            # Events increase volatility persistence
-            infra_persistence = base_persistence + abs(infra_coef) * 0.1  # Scaling factor
-            reg_persistence = base_persistence + abs(reg_coef) * 0.1
 
             # Calculate half-lives
             def calc_half_life(persistence):
@@ -747,20 +744,22 @@ class EventImpactAnalysis:
                     return -np.log(0.5) / np.log(persistence)
                 return np.nan
 
+            # Events affect volatility level, not persistence dynamics
+            # Persistence remains constant; event coefficients shift variance level
             persistence_by_type[crypto] = {
                 'base': {
                     'persistence': base_persistence,
                     'half_life': calc_half_life(base_persistence)
                 },
                 'infrastructure': {
-                    'persistence': infra_persistence,
-                    'half_life': calc_half_life(infra_persistence),
+                    'persistence': base_persistence,  # Same persistence, different level
+                    'half_life': calc_half_life(base_persistence),
                     'coefficient': infra_coef,
                     'volatility_increase': infra_coef * 100 if infra_coef else 0  # Linear variance effect
                 },
                 'regulatory': {
-                    'persistence': reg_persistence,
-                    'half_life': calc_half_life(reg_persistence),
+                    'persistence': base_persistence,  # Same persistence, different level
+                    'half_life': calc_half_life(base_persistence),
                     'coefficient': reg_coef,
                     'volatility_increase': reg_coef * 100 if reg_coef else 0  # Linear variance effect
                 }
