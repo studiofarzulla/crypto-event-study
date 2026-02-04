@@ -1,0 +1,17 @@
+Dear Editors,
+
+I am pleased to submit the manuscript "Infrastructure vs Regulatory Shocks: Asymmetric Volatility Response in Cryptocurrency Markets" for consideration in Digital Finance.
+
+This study demonstrates that infrastructure failures generate 5.7x larger volatility shocks than regulatory announcements in cryptocurrency markets--a finding with direct implications for portfolio risk management and regulatory policy. Using GJR-GARCH-X models across six major cryptocurrencies from 2019-2025, we provide robust evidence through multiple validation approaches including Bayesian inference, regime-switching analysis, and network spillover methods.
+
+Key contributions include: (1) a novel GDELT sentiment decomposition distinguishing infrastructure from regulatory news, (2) evidence that ETH, not BTC, serves as the primary systemic risk hub, and (3) documentation of 5x crisis amplification effects that challenge linear VaR assumptions.
+
+The manuscript has not been submitted elsewhere and all authors have approved submission. The analysis code and data sources are documented for reproducibility.
+
+I believe this work aligns well with Digital Finance's focus on cryptocurrency market dynamics and quantitative methods.
+
+Sincerely,
+
+Murad Farzulla
+King's College London / Farzulla Research
+murad@farzulla.org

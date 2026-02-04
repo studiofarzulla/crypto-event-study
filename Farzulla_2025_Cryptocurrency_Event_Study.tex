@@ -1,249 +1,44 @@
 % ============================================================================
-% FARZULLA RESEARCH PREPRINT TEMPLATE
+% DISSENSUS AI WORKING PAPER
 % ============================================================================
-% Custom academic preprint template with branding, version control, and logos
-% Author: Murad Farzulla
-% Organization: Farzulla Research
-% Template Version: 1.0.0
-% Last Updated: November 2025
-%
-% QUICK START - CUSTOMIZE THESE PLACEHOLDERS PER PAPER:
-% 1. [Your Paper Title Here] - Full title
-% 2. [Your Subtitle Here] - Subtitle (italic)
-% 3. [Short Title Here] - Running header (2-4 words, concise)
-% 4. [Month Year] - Publication date (e.g., "November 2025")
-% 5. [keyword1, keyword2, keyword3] - PDF metadata keywords
-%
-% Author info already filled in (Murad Farzulla, ORCID, Farzulla Research, email)
-%
-% FEATURES IMPLEMENTED:
-% - Corner logos (FR left, Zenodo right) aligned with preprint banner
-% - Burgundy section headings (keeps sizes unchanged)
-% - Running headers: Author (left) | Short Title (right)
-% - Academic affiliation footnotes (superscript on institution, clickable)
-% - URL line breaking (fixes long URLs in bibliography)
-% - Hyperlinked citations (clickable in-text → bibliography)
-% - First page style (no header, just logos + footers)
+% DAI-WP-2025-003
+% Reformatted February 2026 for Dissensus AI Working Paper Series
 % ============================================================================
 
-\documentclass[11pt,twocolumn]{article}
+\documentclass{dai-working-paper}
 
-% ============================================================================
-% PACKAGE IMPORTS
-% ============================================================================
-
-% Page geometry and layout
-\usepackage[a4paper, margin=1in]{geometry}
-\usepackage{setspace}
-
-% Fonts and typography
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-
-% Graphics and figures
+% Paper-specific packages
 \usepackage{graphicx}
 \usepackage{float}
 \graphicspath{{publication_figures/}}
-
-% Tables
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{longtable}
-
-% Lists
 \usepackage{enumitem}
-
-% Math packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-
-% Bibliography
-\usepackage[round,authoryear]{natbib}
-\bibliographystyle{plainnat}
-
-% Colors
-\usepackage{xcolor}
-\definecolor{farzullaburgundy}{RGB}{128,0,32}      % Farzulla Research brand color
-\definecolor{zenodoblue}{RGB}{0,123,255}            % Zenodo blue
-\definecolor{orcidgreen}{RGB}{166,206,57}           % ORCID green
-
-% Colored boxes
-\usepackage{tcolorbox}
-
-% TikZ for custom graphics
-\usepackage{tikz}
-\usepackage{scalerel}
-
-% Hyperlinks and PDF metadata
-\usepackage{url}  % Better URL formatting and line breaking
-\usepackage[colorlinks=true,
-            linkcolor=farzullaburgundy,
-            citecolor=farzullaburgundy,
-            urlcolor=farzullaburgundy,
-            breaklinks=true,
-            pdftitle={Market Reaction Asymmetry: Infrastructure Disruption Dominance Over Regulatory Uncertainty},
-            pdfauthor={Murad Farzulla},
-            pdfkeywords={Cryptocurrency, Volatility, Event Study, TARCH-X, Infrastructure Events, Regulatory Events, GDELT, Market Microstructure, Risk Management}]{hyperref}
 
 % Allow URLs to break at hyphens and slashes
 \def\UrlBreaks{\do\/\do-\do_}
 \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z}
 
-% Section spacing and formatting
-\usepackage{titlesec}
-\titlespacing*{\section}{0pt}{1.5ex plus 0.5ex minus 0.2ex}{1ex plus 0.2ex}
-\titlespacing*{\subsection}{0pt}{1.2ex plus 0.4ex minus 0.2ex}{0.8ex plus 0.2ex}
+% DAI metadata
+\dai{2025}{003}
+\programme{Cryptocurrency Microstructure Analysis}
+\doidoi{10.21203/rs.3.rs-8323026/v1}
+\correspondingauthor{murad@dissensus.ai}
+\orcid{0009-0002-7164-8704}
+\keywords{Cryptocurrency, Volatility, Event Study, TARCH-X, Infrastructure Events, Regulatory Events, GDELT, Market Microstructure, Risk Management}
+\jelcodes{G12, G14, G15, G18, C22, C58}
 
-% Burgundy section headings (justified for traditional block look, scaled down)
-\titleformat{\section}{\normalfont\large\bfseries\color{farzullaburgundy}}{\thesection}{0.5em}{}
-\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{farzullaburgundy}}{\thesubsection}{0.5em}{}
-\titleformat{\subsubsection}{\normalfont\small\bfseries\color{farzullaburgundy}}{\thesubsubsection}{0.5em}{}
-
-% Footer customization
-\usepackage{fancyhdr}
-
-% Absolute positioning for corner logos
-\usepackage{eso-pic}
-
-% ============================================================================
-% CUSTOM LOGO COMMANDS
-% ============================================================================
-
-% ORCID icon (clickable green circle with iD mark) - adjustable size
-\newcommand{\orcidicon}{\scalerel*{
-    \begin{tikzpicture}[x=3ex,y=3ex]
-    \draw[fill=orcidgreen] (0,0) circle (0.5);
-    \draw[white,line width=0.08ex] (0,0.15) -- (0,0.3);
-    \draw[white,line width=0.08ex] (-0.15,0) -- (-0.3,0);
-    \end{tikzpicture}
-}{\textrm{I}}}
-
-% Farzulla Research logo (actual logo image - PDF for vector scaling)
-\newcommand{\farzullalogo}{%
-    \href{https://farzulla.org}{%
-        \includegraphics[height=4ex]{farzulla-logo.pdf}%
-    }%
-}
-
-% Zenodo logo (actual logo image - PDF for vector scaling)
-\newcommand{\zenodologo}{%
-    \href{https://zenodo.org}{%
-        \includegraphics[height=4ex]{zenodo-logo.pdf}%
-    }%
-}
-
-% ============================================================================
-% VERSION AND PREPRINT BANNER
-% ============================================================================
-
-% Version number command (CUSTOMIZE - update for each version/paper)
-\newcommand{\paperver}{2.0.0}
-\newcommand{\paperdate}{November 2025}
-
-% Corner logos removed - using header/footer text instead
-
-% ============================================================================
-% METADATA BOX (appears after abstract on first page)
-% ============================================================================
-
-\newcommand{\metadatabox}[1]{%
-\begin{tcolorbox}[
-    colback=gray!5,
-    colframe=farzullaburgundy,
-    title=Publication Metadata,
-    fonttitle=\bfseries,
-    coltitle=white,
-    colbacktitle=farzullaburgundy,
-    width=\columnwidth,
-    arc=2mm,
-    boxrule=0.8pt
-]
-\small
-\textbf{DOI:} \href{https://doi.org/#1}{\texttt{#1}}\\
-\textbf{Version:} \paperver\\
-\textbf{Date:} \paperdate\\
-\textbf{License:} CC-BY-4.0
-\end{tcolorbox}
-}
-
-% ============================================================================
-% HEADER AND FOOTER CONFIGURATION
-% ============================================================================
-
-% Short title command (CUSTOMIZE THIS - used in running header)
-% Keep it concise (2-4 words max)
-\newcommand{\shorttitle}{Crypto Event Asymmetry}
-
-\pagestyle{fancy}
-\fancyhf{} % Clear default
-
-% Running headers (for main body pages)
-\fancyhead[L]{\small\href{https://farzulla.org}{farzulla.org}}  % Left: Website
-\fancyhead[C]{}                                                  % Center: Empty
-\fancyhead[R]{\small\href{https://doi.org/10.5281/zenodo.17677682}{DOI: 10.5281/zenodo.17677682}}  % Right: DOI
-
-% Footers
-\fancyfoot[C]{\small\thepage}
-\fancyfoot[L]{\small Murad Farzulla}
-\fancyfoot[R]{\small v\paperver~| \paperdate}
-
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
-
-% First page style (no headers, just footers)
-\fancypagestyle{firstpage}{
-  \fancyhf{}
-  \fancyfoot[C]{\small\thepage}
-  \fancyfoot[L]{\small Murad Farzulla}
-  \fancyfoot[R]{\small v\paperver~| \paperdate}
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0.4pt}
-}
-
-% ============================================================================
-% DOCUMENT METADATA
-% ============================================================================
-
-\title{\vspace{-1em}\textbf{Market Reaction Asymmetry: Infrastructure Disruption Dominance Over Regulatory Uncertainty}\\[0.5em]
-\large \textit{Event Study Evidence from Cryptocurrency Volatility}\vspace{-0.5em}}
-
-\author{
-    \textbf{Murad Farzulla} \href{https://orcid.org/0009-0002-7164-8704}{\orcidicon}\\
-    \textit{Farzulla Research} \farzullalogo\\[0.3em]
-    \small \paperdate
-}
-
-\date{}
+\title{Infrastructure vs Regulatory Shocks: Asymmetric Volatility Response in Cryptocurrency Markets}
+\author{Murad Farzulla\\{\normalsize Dissensus AI}}
+\date{November 2025}
 
 % ============================================================================
 % DOCUMENT BODY
 % ============================================================================
 
 \begin{document}
-
-% Single-column frontmatter
-\onecolumn
-\setstretch{1.2}
-
-% Apply first page style (no header)
-\thispagestyle{firstpage}
-
-% Preprint status centered above title
-\begin{center}
-{\small\color{farzullaburgundy}\textbf{PREPRINT v\paperver} | \color{gray}Not peer-reviewed}
-\end{center}
-\vspace{0.5em}
-
-% Manual title construction
-\begin{center}
-{\Large\bfseries Market Reaction Asymmetry: Infrastructure Disruption Dominance Over Regulatory Uncertainty}\\[0.5em]
-{\large\itshape Event Study Evidence from Cryptocurrency Volatility}\\[1em]
-{\bfseries Murad Farzulla}\textsuperscript{1} \href{https://orcid.org/0009-0002-7164-8704}{\orcidicon\ \texttt{0009-0002-7164-8704}}\\[0.5em]
-{\small\itshape \textsuperscript{1}\href{https://farzulla.org}{Farzulla Research}}\\[0.3em]
-{\small \paperdate}\\[0.5em]
-{\small Correspondence: \href{mailto:murad@farzulla.org}{murad@farzulla.org}}
-\end{center}
+\maketitle
 
 % Abstract
 \begin{abstract}
@@ -261,19 +56,7 @@ Parameter estimation enforces covariance stationarity via inequality constraints
 
 \noindent\textbf{Implications:} Event type categorization provides substantial predictive power for volatility responses, requiring differentiated hedging strategies for infrastructure versus regulatory risk. Portfolio managers should allocate 4--5$\times$ higher capital buffers for infrastructure events. The near-integrated volatility persistence suggests cryptocurrency markets operate in a distinct regime where shocks become absorbed into long-memory processes, posing fundamental challenges for traditional risk management frameworks.
 
-\vspace{0.5em}
-\noindent\textbf{Keywords:} Cryptocurrency, Volatility, Event Study, TARCH-X, Infrastructure Events, Regulatory Events, GDELT, Market Microstructure, Risk Management
-
-\vspace{0.3em}
-\noindent\textbf{JEL Codes:} G12, G14, G15, G18, C22, C58
 \end{abstract}
-
-\vspace{1em}
-
-% Metadata box (CUSTOMIZE: Replace with actual Zenodo DOI)
-\metadatabox{10.5281/zenodo.17677682}
-
-\vspace{1em}
 
 % ============================================================================
 % FRONTMATTER SECTIONS (single-column)
@@ -281,7 +64,7 @@ Parameter estimation enforces covariance stationarity via inequality constraints
 
 \section*{Note on Prior Work}
 
-This is version \paperver\ (November 2025) of the cryptocurrency event study research. The work originated as a Master's thesis submitted September 2025. Version 1.0.0 (published Zenodo November 2025) incorporated substantial statistical corrections and analytical revisions from the original thesis submission, with completely updated numerical results reflecting fresh analysis conducted November 10, 2025. This v2.0.0 adopts the Farzulla Research preprint template while preserving all substantive research content from v1.0.0. The transition reflects organizational branding evolution rather than methodological changes. All numerical results, statistical tests, figures, and tables remain identical to v1.0.0, ensuring continuity for readers and citations.
+This paper originated as a Master's thesis submitted September 2025. Version 1.0.0 (published Zenodo November 2025) incorporated substantial statistical corrections and analytical revisions from the original thesis submission, with completely updated numerical results reflecting fresh analysis conducted November 10, 2025. This version adopts the Dissensus AI Working Paper Series format. All numerical results, statistical tests, figures, and tables remain identical to earlier versions, ensuring continuity for readers and citations.
 
 \section*{Research Context}
 
@@ -300,15 +83,8 @@ Future extensions will examine whether this infrastructure-regulatory asymmetry 
 
 \clearpage
 \tableofcontents
-\thispagestyle{firstpage}  % No header on TOC page
-
-% ============================================================================
-% MAIN BODY (switch to two-column)
-% ============================================================================
 
 \clearpage
-\twocolumn
-\setstretch{1.2}  % Reapply line spacing after column switch
 
 \section{Introduction}
 
@@ -1107,11 +883,10 @@ As cryptocurrency markets mature toward greater institutional participation and 
 This study provides empirical evidence and methodological tools for continued investigation of these essential questions at the intersection of technology and finance.
 
 % ============================================================================
-% REFERENCES (switch back to single-column)
+% REFERENCES
 % ============================================================================
 
 \clearpage
-\onecolumn
 
 % ====================
 % ACKNOWLEDGMENTS & DECLARATIONS
@@ -1119,7 +894,7 @@ This study provides empirical evidence and methodological tools for continued in
 
 \section*{Acknowledgments}
 
-This research was conducted in accordance with the Charter of Farzulla Research, available at \url{https://farzulla.org}.
+This research was conducted under the Adversarial Systems \& Complexity Research Initiative (ASCRI) at Dissensus AI.
 
 I am deeply grateful to my mother and sister for their unwavering support throughout this research journey. I acknowledge King's College London and the supervision provided during the initial stages of this research as part of my Master's dissertation, though this version significantly differs from and demonstrates substantial improvements over that earlier work.
 
@@ -1130,7 +905,7 @@ I am indebted to the open source community whose software tools (Python, NumPy, 
 All errors, omissions, and interpretive limitations remain the author's responsibility.
 
 \vspace{0.5em}
-\noindent\textbf{Methodologies:} Research methodologies and reproducibility practices are documented at \href{https://farzulla.org/methodologies}{\texttt{farzulla.org/methodologies}}.
+\noindent\textbf{Methodologies:} Research methodologies and reproducibility practices are documented at \href{https://dissensus.ai}{\texttt{dissensus.ai}}.
 
 \section*{Funding}
 
@@ -1142,7 +917,7 @@ The author declares no conflict of interest.
 
 \section*{Data Availability Statement}
 
-All data, analysis code, figure generation scripts, and comprehensive documentation are publicly available at: \url{https://github.com/studiofarzulla/crypto-event-study}. The repository includes complete implementation details, parameter configurations, and instructions for reproducing all results. Data sources include CoinGecko historical price data and GDELT sentiment analysis. Models are implemented in Python 3.9+ and can be executed on standard hardware. The code repository is archived on Zenodo with DOI: 10.5281/zenodo.17679537. An interactive dashboard for exploring all results is available at: \url{https://farzulla.org/research/crypto-event-study/}.
+All data, analysis code, figure generation scripts, and comprehensive documentation are publicly available at: \url{https://github.com/studiofarzulla/crypto-event-study}. The repository includes complete implementation details, parameter configurations, and instructions for reproducing all results. Data sources include CoinGecko historical price data and GDELT sentiment analysis. Models are implemented in Python 3.9+ and can be executed on standard hardware. The code repository is archived on Zenodo with DOI: 10.5281/zenodo.17679537. An interactive dashboard for exploring all results is available at: \url{https://dissensus.ai/papers/market-reaction-asymmetry.html}.
 
 % ====================
 % REFERENCES
@@ -1319,7 +1094,6 @@ H3: TARCH-X superiority & Mixed & \textbf{Supported} (83\% AIC) \\
 \end{table*}
 
 \clearpage
-\onecolumn
 \section*{Appendix E: Robustness Checks}
 \addcontentsline{toc}{section}{Appendix E: Robustness Checks}
 
@@ -1348,27 +1122,4 @@ Distribution of placebo heterogeneity statistics from 1,000 randomly permuted ev
 
 \end{document}
 
-% ============================================================================
-% VERSION CONTROL GUIDE
-% ============================================================================
-%
-% Semantic Versioning for Academic Papers:
-%   vMAJOR.MINOR.PATCH
-%
-% MAJOR: Complete rewrite, new methodology, fundamentally different paper
-%        Example: 1.0.0 -> 2.0.0 (changed from single case study to multi-country)
-%
-% MINOR: New experiments, expanded scope, additional sections
-%        Example: 1.0.0 -> 1.1.0 (added robustness checks, new case study)
-%
-% PATCH: Bug fixes, typo corrections, citation updates, clarifications
-%        Example: 1.0.0 -> 1.0.1 (fixed table formatting, corrected citations)
-%
-% To update version:
-%   1. Change \newcommand{\paperver}{X.Y.Z} above
-%   2. Update \newcommand{\paperdate}{Month Year}
-%   3. Update "Note on Prior Work" section describing changes
-%   4. Recompile PDF
-%   5. Upload new version to Zenodo (creates linked DOI)
-%
-% ============================================================================
+% DAI-WP-2025-003

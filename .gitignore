@@ -91,3 +91,9 @@ advanced_analyses/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Tool artifacts
+.claude-flow/
+.swarm/
+CLAUDE.md
+**/CLAUDE.md
