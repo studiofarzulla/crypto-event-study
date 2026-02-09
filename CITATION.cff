@@ -1,11 +1,34 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: "If you use or reference this work, please cite it as below."
+type: article
 authors:
-- family-names: "Farzulla"
-  given-names: "Murad"
-  orcid: "https://orcid.org/0009-0002-7164-8704"
-title: "cryptocurrency-event-study"
-version: 2.0.0
-doi: 10.5281/zenodo.17679537
-date-released: 2025-11-22
-url: "https://github.com/studiofarzulla/cryptocurrency-event-study"
+  - family-names: "Farzulla"
+    given-names: "Murad"
+    orcid: "https://orcid.org/0009-0002-7164-8704"
+    email: "murad@dissensus.ai"
+    affiliation: "Dissensus AI"
+title: "Infrastructure vs Regulatory Shocks: Asymmetric Volatility Response in Cryptocurrency Markets"
+version: "1.0.0"
+date-released: "2025-11-22"
+license: "CC-BY-4.0"
+doi: "10.21203/rs.3.rs-8323026/v1"
+url: "https://dissensus.ai"
+repository-code: "https://github.com/studiofarzulla/crypto-event-study"
+keywords:
+  - cryptocurrency
+  - volatility
+  - TARCH-X
+  - event study
+  - asymmetric response
+  - financial regulation
+  - infrastructure shocks
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Farzulla"
+      given-names: "Murad"
+      orcid: "https://orcid.org/0009-0002-7164-8704"
+  title: "Infrastructure vs Regulatory Shocks: Asymmetric Volatility Response in Cryptocurrency Markets"
+  year: 2025
+  doi: "10.21203/rs.3.rs-8323026/v1"
+  journal: "Research Square"
