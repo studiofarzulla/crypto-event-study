@@ -1,0 +1,6 @@
+spec,n,mean_infra,mean_reg,multiplier,welch_p,kind,note
+primary_curated,50,1.978,0.405,4.88,0.0015,curated,5.7x under canonical rolling winsorisation; significant
+nofilter_135,135,0.209,0.364,0.58,0.4464,mech,not significant
+oneasset_115,115,1.403,0.944,1.49,0.3205,mech,not significant
+twoasset_93,93,2.889,1.793,1.61,0.1635,mech,like-for-like analogue of curated criterion; not significant
+threeasset_77,77,3.834,2.924,1.31,0.4029,mech,not significant

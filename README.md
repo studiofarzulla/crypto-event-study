@@ -1,96 +1,56 @@
-# Infrastructure vs Regulatory Shocks: Asymmetric Volatility Response in Cryptocurrency Markets
+# Do Cryptocurrency Markets Differentiate Infrastructure from Regulatory Shocks?
+### A Multi-Moment Event Study with Dependence-Robust Inference
 
-**Event Study Evidence from Cryptocurrency Volatility**
+Replication materials for the merged multi-moment paper (supersedes the earlier
+single-moment "Infrastructure vs Regulatory Shocks" and the companion "Same Returns,
+Different Risks").
 
-[![DOI](https://img.shields.io/badge/DOI-10.21203%2Frs.3.rs--8323026%2Fv1-blue.svg)](https://doi.org/10.21203/rs.3.rs-8323026/v1)
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Status](https://img.shields.io/badge/Status-Under_Review-yellow.svg)](https://doi.org/10.21203/rs.3.rs-8323026/v1)
+**Finding.** Cryptocurrency markets do **not** statistically differentiate infrastructure
+from regulatory shocks at *either* moment — returns (block-bootstrap *p* ≈ 0.28) or
+conditional variance (Student-*t*-copula bootstrap *p* = 0.322) — once inference accounts
+for cross-event/cross-asset dependence and heavy tails. The apparent volatility asymmetry
+reported in the earlier version was an **inference artefact**. The lead contribution is a
+methodological cautionary tale: an *inference ladder* and a *Monte-Carlo size study* showing
+how naive event-study inference manufactures significance that correct inference dissolves.
 
-**Working Paper DAI-2506** | [Dissensus AI](https://dissensus.ai)
+## Repository structure
+- `paper/` — merged manuscript (`main.tex`, `main.pdf`) + response/cover letters
+- `code/` — verified analysis pipeline (`c1`–`c11`, `tarch_x_manual.py`, `tarch_x_fast.py`)
+- `data/` — shared sample: 6 assets (BTC, ETH, XRP, BNB, LTC, ADA), 50 events, GDELT sentiment
+- `results/` — committed outputs (CSVs + per-analysis FINDING docs)
+- `_archive/` — superseded prior-version materials; **do not cite**
+- `springer-submission/` — frozen original single-moment submission, retained as record (superseded)
 
-Currently under review at **Digital Finance** (Springer).
+## Script → paper map
+| script | produces |
+|---|---|
+| `c1_build_candidate_pool` | candidate-event pool + drop-out census |
+| `c2_relaxed_threshold` / `c2b_two_asset_point` | scope-condition multiverse (curated vs mechanical) |
+| `c3_bai_perron` | structural breaks (descriptive) |
+| `c5_pseudoreplication_test` | inference-ladder rungs 2–3 (event-level / cluster) |
+| `c6_garchx_clustered` | design-effect / correlation-weighted (rung 4) |
+| `c7_ccc_garchx_bootstrap` | Gaussian-copula bootstrap (rung 5) |
+| `c9_tcopula_bootstrap` | **Student-*t*-copula bootstrap — inference of record (rung 6)** |
+| `c8a` / `c8h_break_controls` | structural-break regime controls |
+| `c8b`/`c8c`/`c8d`/`c8e` | anticipation / winsorisation / constant-mean / persistence |
+| `c8f_weekly_granger_fdr` | weekly sentiment-leads-volatility (+ BH-FDR) |
+| `c10_size_study` | **Monte-Carlo size-distortion study** |
+| `c11_returns_block_bootstrap` | first-moment returns null (rung 7) |
 
-## Abstract
-
-Infrastructure failures generate 5.7x larger volatility shocks than regulatory announcements in cryptocurrency markets (2.385% vs 0.419%, p=0.0008, Cohen's d=2.753), challenging assumptions that "all bad news is equivalent" for portfolio risk management. This asymmetry is robust across six major cryptocurrencies (January 2019 -- August 2025), multiple statistical tests, and validation approaches including Bayesian inference (Bayes Factors >10 for 4/6 assets), machine learning clustering, network spillover analysis, and Markov regime-switching models.
-
-We analyze 50 major events using GJR-GARCH-X models incorporating infrastructure disruptions (exchange outages, protocol exploits, network failures) and regulatory announcements (enforcement actions, policy changes) as exogenous variance drivers. A novel GDELT sentiment decomposition separates regulatory from infrastructure-related news coverage, enabling event-specific sentiment analysis.
-
-Critically, even degraded sentiment proxies -- weekly aggregation creating 7-day temporal mismatch with daily volatility, 7% missing values, and systematic negative bias -- improve model fit for 83% of assets. This suggests sentiment's true information content is substantially underestimated in our results: cryptocurrency markets appear sufficiently sentiment-driven that any reasonable proxy captures tradeable signal, implying higher-frequency sentiment data would yield considerably stronger effects.
-
-Network analysis reveals ETH, not BTC, serves as the primary systemic risk hub (eigenvector centrality 0.89 vs 0.71), challenging conventional assumptions about Bitcoin dominance. Regime-switching models detect 5x sensitivity amplification during crisis periods (F=45.23, p<0.001), with infrastructure sensitivity increasing from 2.3% to 11.2% during market stress -- implying traditional VaR models assuming linear risk scaling catastrophically underestimate tail risk.
-
-## Key Findings
-
-| Finding | Result |
-|---------|--------|
-| Infrastructure vs Regulatory volatility impact | 5.7x larger (2.385% vs 0.419%, p=0.0008) |
-| Effect size | Cohen's d = 2.753 |
-| Bayesian validation | BF > 10 for 4/6 assets |
-| Sentiment model improvement | 83% of assets (5/6) |
-| ETH systemic risk centrality | Eigenvector centrality 0.89 vs BTC 0.71 |
-| Crisis amplification | 5x (2.3% to 11.2%, F=45.23, p<0.001) |
-
-## Repository Structure
-
+## Reproduce
 ```
-crypto-event-study/
-├── preprint/                       # Extended preprint version
-├── springer-submission/            # FROZEN -- Springer journal submission (DO NOT MODIFY)
-├── code/                           # Analysis scripts
-│   ├── config.py                   # Configuration
-│   ├── data_collection.py          # CoinGecko & GDELT data
-│   ├── tarch_x_estimation.py       # Manual MLE implementation
-│   ├── hypothesis_tests.py         # Statistical tests
-│   ├── robustness_checks.py        # Bayesian, clustering, spillover
-│   └── figure_generation.py        # Publication figures
-├── data/                           # Input data
-│   ├── events.csv                  # 50 curated events (26 infra, 24 reg)
-│   ├── crypto_prices/              # Daily OHLCV (6 assets)
-│   └── gdelt_sentiment/            # Decomposed sentiment indices
-├── publication_figures/            # Publication-ready figures
-├── outputs/                        # Analysis results
-└── docs/                           # Methodology documentation
-```
-
-**Note:** The `springer-submission/` directory contains the frozen journal submission and should not be modified.
-
-## Replication
-
-```bash
 pip install -r requirements.txt
-
-python code/data_collection.py
-python code/tarch_x_estimation.py
-python code/hypothesis_tests.py
-python code/robustness_checks.py
-python code/figure_generation.py
+python code/c9_tcopula_bootstrap.py    # inference of record (variance)
+python code/c11_returns_block_bootstrap.py   # first moment (returns)
+python code/c10_size_study.py          # Monte-Carlo size study
 ```
 
-## Keywords
-
-Cryptocurrency, Volatility, Event Study, GJR-GARCH-X, Infrastructure Risk, Regulatory Uncertainty
+## Note on the prior version
+This repository previously hosted the single-moment "5.7×, *p* = 0.0008" result. That
+estimate did not survive dependence-robust inference; the point estimate is unchanged but it
+is no longer statistically distinguishable from zero. This paper reports the corrected dual
+null and the inference lesson openly, as self-correction. Superseded materials are in
+`_archive/` and `springer-submission/`.
 
 ## Citation
-
-```bibtex
-@article{farzulla2025infrastructure,
-  author  = {Farzulla, Murad},
-  title   = {Infrastructure vs Regulatory Shocks: Asymmetric Volatility Response in Cryptocurrency Markets},
-  year    = {2025},
-  doi     = {10.21203/rs.3.rs-8323026/v1},
-  url     = {https://doi.org/10.21203/rs.3.rs-8323026/v1},
-  note    = {Under Review at Digital Finance (Springer)}
-}
-```
-
-## Authors
-
-- **Murad Farzulla** -- [Dissensus AI](https://dissensus.ai) & King's College London
-  - ORCID: [0009-0002-7164-8704](https://orcid.org/0009-0002-7164-8704)
-  - Email: murad@dissensus.ai
-
-## License
-
-Paper content: [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)
-Code: [MIT License](LICENSE)
+See `CITATION.cff`.

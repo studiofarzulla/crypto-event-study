@@ -4,8 +4,7 @@ authors:
 - family-names: "Farzulla"
   given-names: "Murad"
   orcid: "https://orcid.org/0009-0002-7164-8704"
-title: "cryptocurrency-event-study"
-version: 2.0.0
-doi: 10.5281/zenodo.17679537
-date-released: 2025-11-22
-url: "https://github.com/studiofarzulla/cryptocurrency-event-study"
+title: "Do Cryptocurrency Markets Differentiate Infrastructure from Regulatory Shocks? A Multi-Moment Event Study with Dependence-Robust Inference"
+version: 3.0.0
+doi: 10.5281/zenodo.18099608
+url: "https://github.com/studiofarzulla/crypto-event-study"
