@@ -79,6 +79,9 @@ publication_figures_enhanced/
 publication_figures_new/
 outputs/publication_figures/
 
+# Superseded pre-revision code (fabricated-figure script) — kept local, out of public repo
+_archive/prerevision-code/
+
 # Deprecated scripts
 fix_figures.py
 *_DEPRECATED.py
