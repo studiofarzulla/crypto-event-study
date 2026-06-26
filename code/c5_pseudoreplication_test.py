@@ -17,8 +17,8 @@ import numpy as np, pandas as pd
 from scipy import stats
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent.parent  # event-study/
-DATA = ROOT / "code" / "data"
+ROOT = Path(__file__).resolve().parent.parent  # repo root (crypto-event-study/)
+DATA = ROOT / "data"
 ASSETS = ["btc","eth","xrp","bnb","ltc","ada"]
 W_BEFORE, W_AFTER = 3, 3
 

@@ -4,7 +4,10 @@ pandas==2.3.1
 scipy==1.16.2
 
 # Statistical modeling
-statsmodels==0.14.6.dev0+g1107ea567.d20250914
+# (granger/VAR, multipletests, proportions_ztest, acorr_ljungbox, adfuller/kpss — all stable since 0.14.x)
+statsmodels>=0.14.1
+# Change-point detection (PELT, Bai-Perron-style trimming) — used by code/c3_bai_perron.py
+ruptures>=1.1.7
 
 # GARCH models (optional - manual implementation provided)
 # arch==6.4.0  # Uncomment if using arch package models instead of manual TARCH-X

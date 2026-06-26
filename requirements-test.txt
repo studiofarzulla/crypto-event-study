@@ -29,6 +29,9 @@ arch>=5.3.0
 # Statistical testing
 statsmodels>=0.13.0
 
+# Change-point detection (used by code/c3_bai_perron.py)
+ruptures>=1.1.7
+
 # Code quality tools (optional)
 flake8>=5.0.0            # Linting
 black>=22.0.0            # Code formatting

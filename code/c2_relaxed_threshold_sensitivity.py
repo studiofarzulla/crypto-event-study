@@ -30,10 +30,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-ROOT = Path(__file__).resolve().parent.parent.parent  # event-study/
+ROOT = Path(__file__).resolve().parent.parent  # repo root (crypto-event-study/)
 CODE_DIR = ROOT / "code"
-DATA_DIR = CODE_DIR / "data"
-OUT_DIR = ROOT / "r1-revision"
+DATA_DIR = ROOT / "data"
+OUT_DIR = ROOT / "results"
 
 sys.path.insert(0, str(CODE_DIR))
 from tarch_x_manual import TARCHXEstimator  # noqa: E402

@@ -32,10 +32,10 @@ import pandas as pd
 import ruptures as rpt
 from scipy import stats
 
-ROOT = Path(__file__).resolve().parent.parent.parent
+ROOT = Path(__file__).resolve().parent.parent  # repo root (crypto-event-study/)
 CODE_DIR = ROOT / "code"
-DATA_DIR = CODE_DIR / "data"
-OUT_DIR = ROOT / "r1-revision"
+DATA_DIR = ROOT / "data"
+OUT_DIR = ROOT / "results"
 
 sys.path.insert(0, str(CODE_DIR))
 sys.path.insert(0, str(Path(__file__).resolve().parent))

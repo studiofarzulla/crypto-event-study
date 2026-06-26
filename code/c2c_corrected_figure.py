@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent  # r1-revision/
+OUT = Path(__file__).resolve().parent.parent / "results"  # repo-root/results/
 
 rows = [
     # label, n, infra, reg, mult, p, kind

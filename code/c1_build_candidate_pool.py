@@ -27,9 +27,9 @@ import numpy as np
 import pandas as pd
 
 # Paths
-ROOT = Path(__file__).resolve().parent.parent.parent  # event-study/
-DATA_DIR = ROOT / "code" / "data"
-OUT_DIR = ROOT / "r1-revision"
+ROOT = Path(__file__).resolve().parent.parent  # repo root (crypto-event-study/)
+DATA_DIR = ROOT / "data"
+OUT_DIR = ROOT / "results"
 
 ASSETS = ["btc", "eth", "xrp", "bnb", "ltc", "ada"]
 
