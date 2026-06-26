@@ -1,89 +1,44 @@
-# TARCH-X Implementation Code
+# Analysis code — merged multi-moment event study
 
-[![Code DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17595251.svg)](https://doi.org/10.5281/zenodo.17595251)
+This directory holds the **`c1`–`c14` pipeline** behind the manuscript *Do Cryptocurrency
+Markets Differentiate Infrastructure from Regulatory Shocks? A Multi-Moment Event Study
+with Dependence-Robust Inference*. Every table/figure in the paper is produced here from
+`../data/*.csv`. The script → paper-table map is in the **root `README.md`**.
 
-Custom Python implementation of TARCH-X models for cryptocurrency event study analysis.
+> Tested on **Python 3.11–3.13**. Python 3.14 is not yet supported by the pinned
+> `pandas==2.3.1` (its datetime C-extension segfaults there) — use 3.11–3.13.
+> `python3.13 -m venv .venv && . .venv/bin/activate && pip install -r ../requirements.txt`
 
-## Core Modules
+## Estimation engines
+- **`tarch_x_fast.py`** — `FastTARCHX`: the GJR-GARCH-X (TARCH-X) maximum-likelihood
+  estimator used throughout (Student-*t* innovations, event + sentiment exogenous
+  regressors, multistart). This is the canonical estimator.
+- **`tarch_x_manual.py`** — reference/manual TARCH-X implementation (cross-check).
+- **`data_preparation.py`** — winsorisation helper (`DataPreparation.winsorize_returns`).
+- **`descriptive_stats.py`** — Table 1 (raw + global-clip moments); fast sanity check.
 
-### TARCH-X Models
-- **`tarch_x_manual.py`** - Main TARCH-X implementation with event indicators
-- **`tarch_x_manual_optimized.py`** - Optimized version for faster estimation
-- **`garch_models.py`** - Standard GARCH/EGARCH/TARCH specifications
+## Pipeline (c-series)
+| Script | Produces |
+|---|---|
+| `c1_build_candidate_pool.py` | reconstructed 135-event pool + drop-out census (§7.1) |
+| `c2_relaxed_threshold_sensitivity.py` | scope-condition sweep (Table 10) |
+| `c2b_two_asset_point.py` | like-for-like 2-asset screen, 1.61× (§7.1.2) |
+| `c2c_corrected_figure.py` | corrected sweep figure |
+| `c3_bai_perron.py` | structural breaks / sub-sample persistence (Table 13) |
+| `c4_granger_causality.py` | weekly sentiment→volatility Granger (Table 14) |
+| `c5_pseudoreplication_test.py` | ladder rungs 2–3 (event-level Welch / MW / cluster) |
+| `c6_garchx_clustered.py` | design-effect correction (rung 4) |
+| `c7_ccc_garchx_bootstrap.py` | Gaussian-copula CCC-GARCH-X bootstrap (rung 5) |
+| `c8a`–`c8i` | control battery: break controls, anticipation sweep, rolling-winsor, constant/AR(1)/event-in-mean, persistence SEs, weekly-Granger FDR |
+| `c9_tcopula_bootstrap.py` | **Student-*t*-copula bootstrap — inference of record (rung 6)** |
+| `c10_size_study.py` | Monte-Carlo size study (Table 9) |
+| `c11_returns_block_bootstrap.py` | first-moment returns null (rung 7) |
+| `c12_granger_rigour.py` | Toda–Yamamoto / litigation / BTC-control Granger robustness |
+| `c13_rung4_recompute.py` | corrected design-effect reference (t(df_eff), Table 9 sub-row) |
+| `c14_garch_diagnostics.py` | per-asset parameter table (Table 4) + ARCH diagnostics |
 
-### Analysis Pipeline
-- **`data_preparation.py`** - Price data loading and preprocessing
-- **`event_impact_analysis.py`** - Event impact estimation and hypothesis testing
-- **`robustness_checks.py`** - Placebo tests, temporal stability, alternative windows
-- **`robustness_overlapping_events.py`** - Robustness check for overlapping event treatment
-- **`run_diagnostics.py`** - Model diagnostics (Ljung-Box, ARCH-LM, Jarque-Bera tests)
-- **`bootstrap_inference.py`** - Bootstrap standard errors and confidence intervals
-
-### Utilities
-- **`config.py`** - Global configuration and parameters
-- **`publication_outputs.py`** - Figure and table generation
-- **`coingecko_fetcher.py`** - CoinGecko API price fetcher
-- **`run_event_study_analysis.py`** - Main analysis orchestration script
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
-
-## Usage
-
-```python
-from code.tarch_x_manual import estimate_tarch_x
-from code.robustness_checks import run_placebo_test
-
-# See individual module docstrings for detailed usage
-```
-
-## Key Features
-
-- Custom maximum likelihood TARCH-X estimator (~400 lines)
-- Bootstrap inference (1,000 iterations)
-- Robustness validation suite:
-  - Placebo tests with 1,000 random event permutations
-  - Temporal stability across market regimes
-  - Alternative event window specifications (±1 to ±7 days)
-- Publication-ready figure generation (300 DPI)
-
-## Citation
-
-If you use this code in your research, please cite:
-
-```bibtex
-@software{farzulla2025crypto_code,
-  author = {Farzulla, Murad},
-  title = {TARCH-X Implementation for Cryptocurrency Event Study Analysis},
-  year = {2025},
-  month = {November},
-  publisher = {Zenodo},
-  version = {v1.0.1},
-  doi = {10.5281/zenodo.17595251},
-  url = {https://doi.org/10.5281/zenodo.17595251}
-}
-```
-
-For the research paper using this code, cite:
-
-```bibtex
-@techreport{farzulla2025infrastructure,
-  author = {Farzulla, Murad},
-  title = {Code Failures, Market Panic: Why Infrastructure Events Hit Crypto Harder Than Regulations},
-  subtitle = {A TARCH-X Analysis of Differential Volatility Responses},
-  year = {2025},
-  month = {November},
-  type = {Working Paper},
-  doi = {10.5281/zenodo.17595207},
-  url = {https://doi.org/10.5281/zenodo.17595207}
-}
-```
+The two heavy bootstraps (`c9`, `c10`) parallelise across cores (`--n_jobs`); on a single
+core they run serially and are slow. Fixed seeds make all outputs deterministic.
 
 ## License
-
-MIT License - See `LICENSE` file in this directory
-
-The research paper is licensed under CC BY 4.0 (see root `LICENSE` file).
+MIT (code) — see `LICENSE`. The paper is CC BY 4.0 (root `LICENSE`).

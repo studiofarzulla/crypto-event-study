@@ -1,3 +1,7 @@
+# Tested on Python 3.11-3.13 (CPython). NOTE: Python 3.14 is NOT yet supported by
+# the pinned pandas (2.3.1) -- its datetime C-extension segfaults on 3.14. Use a
+# Python 3.11-3.13 interpreter (e.g. `python3.13 -m venv .venv`) to reproduce.
+
 # Core scientific computing
 numpy==2.3.4
 pandas==2.3.1

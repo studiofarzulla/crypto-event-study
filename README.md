@@ -38,8 +38,11 @@ how naive event-study inference manufactures significance that correct inference
 | `c11_returns_block_bootstrap` | first-moment returns null (rung 7) |
 
 ## Reproduce
+Tested on **Python 3.11–3.13**. (Python 3.14 is not yet supported by the pinned `pandas==2.3.1`, whose datetime C-extension segfaults there — use 3.11–3.13.)
 ```
+python3.13 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
+python code/descriptive_stats.py       # Table 1 (fast sanity check)
 python code/c9_tcopula_bootstrap.py    # inference of record (variance)
 python code/c11_returns_block_bootstrap.py   # first moment (returns)
 python code/c10_size_study.py          # Monte-Carlo size study

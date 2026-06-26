@@ -1,3 +1,9 @@
+> ⚠️ **SUPERSEDED (archived r1-revision artefact — not canonical).** The two-proportion
+> test statistic below was reported as a nonstandard one-tailed `z = -1.5951`. The
+> canonical manuscript uses the **standard pooled two-proportion `z = -1.33`** (recomputed
+> = -1.3282); the pass-rate counts (64.6% / 75.5%) are unchanged. Use the merged
+> multi-moment manuscript and `results/c1-dropout-census.csv` as the source of truth.
+
 # C1 — Drop-Out Census: Summary
 
 **Candidate pool:** 135 events, 2019-01-15 to 2025-08-08, systematically reconstructed from public-record crypto event sources (Rekt/DeFiLlama hack databases, SEC/CFTC enforcement records, major-jurisdiction regulatory announcements, exchange status pages and post-mortems).
