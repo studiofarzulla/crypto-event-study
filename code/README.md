@@ -46,4 +46,5 @@ The two heavy bootstraps (`c9`, `c10`) parallelise across cores (`--n_jobs`); on
 core they run serially and are slow. Fixed seeds make all outputs deterministic.
 
 ## License
-MIT (code) — see `LICENSE`. The paper is CC BY 4.0 (root `LICENSE`).
+MIT (code) — see `LICENSE` here and at the repo root. The manuscript (`paper/`)
+remains CC BY 4.0; data provenance is noted in the root `README.md`.

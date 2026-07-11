@@ -73,5 +73,14 @@ is no longer statistically distinguishable from zero. This paper reports the cor
 null and the inference lesson openly, as self-correction. Superseded materials are in
 `_archive/` and `springer-submission/`.
 
+## License
+- **Code** (`code/`, including `code/src/`): MIT — see `LICENSE`.
+- **Manuscript** (`paper/`) and the FINDING docs in `results/`: CC BY 4.0.
+- **Data**: `events.csv` / `events_reclassified.json` are author-curated (CC BY 4.0);
+  price CSVs derive from CoinGecko public data and `gdelt.csv` from the GDELT
+  Project — both redistributed here as small research extracts with attribution.
+  The Binance-derived smoke-test cache is not redistributed; rebuild it locally
+  with `code/fetch_binance_cache.py`.
+
 ## Citation
 See `CITATION.cff`.
