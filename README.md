@@ -15,8 +15,9 @@ how naive event-study inference manufactures significance that correct inference
 
 ## Repository structure
 - `paper/` — merged manuscript (`main.tex`, `main.pdf`) + response/cover letters
-- `code/` — verified analysis pipeline (`c1`–`c11`, `tarch_x_manual.py`, `tarch_x_fast.py`)
-- `data/` — shared sample: 6 assets (BTC, ETH, XRP, BNB, LTC, ADA), 50 events, GDELT sentiment
+- `code/` — verified analysis pipeline (`c1`–`c14`, `tarch_x_manual.py`, `tarch_x_fast.py`)
+- `code/src/` — CAR engine for the returns leg (`ConstantMeanModel` in `event_study.py` + `config.py`), inherited from the retired standalone returns paper; imported by `c11`
+- `data/` — shared sample: 6 assets (BTC, ETH, XRP, BNB, LTC, ADA), 50 events (`events.csv` + `events_reclassified.json`), GDELT sentiment
 - `results/` — committed outputs (CSVs + per-analysis FINDING docs)
 - `_archive/` — superseded prior-version materials; **do not cite**
 - `springer-submission/` — frozen original single-moment submission, retained as record (superseded)
@@ -47,6 +48,23 @@ python code/c9_tcopula_bootstrap.py    # inference of record (variance)
 python code/c11_returns_block_bootstrap.py   # first moment (returns)
 python code/c10_size_study.py          # Monte-Carlo size study
 ```
+Scripts read the committed `data/*.csv` and write to `results/`; all seeds are
+fixed, so a clean-clone run regenerates the committed CSVs (e.g. `c11` rewrites
+`results/c-gate-returns-unified-results.csv` — `git diff` should come back clean).
+
+**Returns leg (`c11`) in full:** the gate runs A/B — the numbers used in the paper
+(block-bootstrap *p* = 0.283 on the 6-asset basis) — need only the committed CSVs
+and run from a clean clone as-is. The script's optional *smoke test* additionally
+replays the retired returns paper's original 4-asset sample, which requires a
+Binance daily-kline cache that is **not** committed (derived data, `*.parquet` is
+gitignored). Rebuild it first with
+```
+python code/fetch_binance_cache.py
+```
+which fetches from the public Binance klines API (no key needed), writes
+`data/cache/*.parquet`, and verifies the rebuilt returns series against SHA-256
+fingerprints of the original run. Without the cache, `c11` skips the smoke test
+with a notice and still produces the gate results.
 
 ## Note on the prior version
 This repository previously hosted the single-moment "5.7×, *p* = 0.0008" result. That

@@ -14,6 +14,11 @@ with Dependence-Robust Inference*. Every table/figure in the paper is produced h
   estimator used throughout (Student-*t* innovations, event + sentiment exogenous
   regressors, multistart). This is the canonical estimator.
 - **`tarch_x_manual.py`** — reference/manual TARCH-X implementation (cross-check).
+- **`src/`** — CAR engine for the returns leg (`ConstantMeanModel` in
+  `src/event_study.py`, parameters in `src/config.py`), inherited from the retired
+  standalone returns paper; imported by `c11_returns_block_bootstrap.py`.
+- **`fetch_binance_cache.py`** — rebuilds the Binance daily-kline parquet cache
+  used only by the `c11` smoke test (not committed; see root README).
 - **`data_preparation.py`** — winsorisation helper (`DataPreparation.winsorize_returns`).
 - **`descriptive_stats.py`** — Table 1 (raw + global-clip moments); fast sanity check.
 

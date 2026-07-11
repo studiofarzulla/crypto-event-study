@@ -62,7 +62,14 @@ SEED = config.RANDOM_SEED          # 42
 ESTIMATION_WINDOW = config.ESTIMATION_WINDOW_DAYS   # 250
 GAP_WINDOW = config.GAP_WINDOW_DAYS                 # 30
 
+# Paper-side working copy keeps data under code/data/; the public repo keeps
+# the byte-identical files at the repo root (data/, results/). Resolve both.
 DATA = CODE_DIR / 'data'
+if not DATA.exists():
+    DATA = CODE_DIR.parent / 'data'
+OUT_DIR = CODE_DIR.parent / 'results'
+if not OUT_DIR.exists():
+    OUT_DIR = CODE_DIR
 
 
 # ----------------------------------------------------------------------------
@@ -257,6 +264,12 @@ def run_smoke():
 
     symbols = config.TIER1_ASSETS + config.TIER2_ASSETS[:2]   # BTC,ETH,SOL,ADA
     rd = load_cache_returns(symbols)
+    if not rd:
+        print("  [smoke] Binance parquet cache not found under data/cache/.")
+        print("  [smoke] Rebuild it with:  python code/fetch_binance_cache.py")
+        print("  [smoke] Skipping smoke test; gate runs (A/B) below use only the")
+        print("  [smoke] committed CoinGecko CSVs and are unaffected.")
+        return None
     by_type = load_reclassified_neg_events()
     infra_ev = by_type.get('Infra_Negative', [])
     reg_ev = by_type.get('Reg_Negative', [])
@@ -400,7 +413,7 @@ def main():
     rowB = run_gate("B: 5-asset (ex XRP)", ['BTC', 'ETH', 'BNB', 'LTC', 'ADA'])
 
     out = pd.DataFrame([rowA, rowB])
-    out_path = CODE_DIR / 'c-gate-returns-unified-results.csv'
+    out_path = OUT_DIR / 'c-gate-returns-unified-results.csv'
     out.to_csv(out_path, index=False)
     print("\n" + "=" * 74)
     print(f"Saved results CSV: {out_path}")

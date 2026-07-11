@@ -1,8 +1,10 @@
 # GATE — Returns (first moment) on the UNIFIED variance basis
 
 **Date:** 2026-06-18
-**Runner:** `code/c_gate_returns_unified.py` (new file; touches nothing existing)
-**Results:** `code/c-gate-returns-unified-results.csv`
+**Runner:** `code/c11_returns_block_bootstrap.py` (committed here under its pipeline
+name; originally written as `c_gate_returns_unified.py` on the paper side — identical
+analysis code)
+**Results:** `results/c-gate-returns-unified-results.csv`
 **Question:** Does the infrastructure-vs-regulatory **returns** null hold when re-estimated on the
 **same sample basis as the variance analysis** (6 assets, 50 events)? This is the make-or-break
 number for merging the no-structure (returns) and event-study/infra (variance) papers into one
@@ -19,8 +21,9 @@ event-level mean CARs). **Only the sample changed.**
 
 ## 1. Smoke test — engine is faithful (CONFIRMED, bit-exact)
 
-Reran the original sample (4 assets BTC/ETH/SOL/ADA from the Binance parquet cache;
-`Infra_Negative` / `Reg_Negative` events from `events_reclassified.json`, 8 vs 7 with valid CARs).
+Reran the original sample (4 assets BTC/ETH/SOL/ADA from the Binance parquet cache —
+not committed; rebuild via `code/fetch_binance_cache.py`; `Infra_Negative` / `Reg_Negative`
+events from `data/events_reclassified.json`, 8 vs 7 with valid CARs).
 
 | Quantity | This run | Paper | Match |
 |---|---|---|---|
